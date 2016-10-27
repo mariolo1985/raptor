@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:css": "lessc less/master.less css/master.css && cleancss -o css/master.min.css css/master.css",
-    "build:web":"npm run build:css && npm run webpack -p"
+    "build:component": "babel ./component --out-dir ./build",
+    "build:injector": "NODE_ENV=production webpack --process -p",
+    "build:web": "npm run build:css && npm run build:component && npm run build:injector"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,8 @@
   "homepage": "https://github.com/mariolo1985/raptor#readme",
   "dependencies": {
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-dropzone": "^3.7.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
