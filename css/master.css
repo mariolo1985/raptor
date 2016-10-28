@@ -1,0 +1,178 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue, Arial";
+}
+.clear:before,
+.clear:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+.center-helper {
+  text-align: center;
+}
+.ct-ignition,
+.ct-inspector {
+  display: none;
+}
+.attachment-here {
+  margin-bottom: 100px;
+}
+.attachment-zone {
+  padding: 20px;
+}
+.attachments {
+  height: 15em;
+  width: 75%;
+  margin: 0 auto;
+  border: 2px dashed #999999;
+  border-radius: 10px;
+  padding: 20px;
+}
+.attachments.dragon {
+  animation: pulse 1s 4;
+}
+.attachments.dragon .dragged-msg {
+  display: block;
+}
+.attachments.dragon .default-msg {
+  display: none;
+}
+.attachments .dragged-msg {
+  display: none;
+}
+.attachments .dragged-msg .attachment-instructions,
+.attachments .dragged-msg .attachment-flair:before {
+  color: #ffffff;
+}
+.attachments .attachment-instructions {
+  font-size: 2em;
+  text-align: center;
+  color: #999999;
+}
+.attachments .attachment-flair {
+  display: block;
+  text-align: center;
+}
+.attachments .attachment-flair:before {
+  color: #999999;
+  font-size: 2em;
+}
+.attachments input[type=file] {
+  display: none;
+}
+.attachment-preview {
+  border-top: 1px solid #999999;
+  padding-top: 100px;
+  margin-top: 100px;
+}
+.attachment-preview .attachment-item {
+  float: left;
+  width: 100%;
+}
+.attachment-preview .attachment-item > div {
+  border: 1px solid #999999;
+  margin: 10px;
+}
+.attachment-preview .attachment-item .attachment-counter {
+  color: #444444;
+}
+.attachment-preview .attachment-item .btn-select-file {
+  width: 35%;
+  margin-bottom: 20px;
+}
+.attachment-preview .attachment-item .btn-select-file:hover {
+  cursor: pointer;
+}
+.attachment-preview .attachment-item .btn-select-file .attachment-icon {
+  width: 100%;
+}
+.attachment-preview .attachment-item span {
+  display: block;
+}
+.attachment-preview .high-details {
+  text-align: center;
+}
+@media (max-width: 400px) {
+  .attachment-preview .attachment-item {
+    width: 100%;
+  }
+}
+@media (min-width: 401px) {
+  .attachment-preview .attachment-item {
+    width: 50%;
+  }
+}
+@media (min-width: 700px) {
+  .attachment-preview .attachment-item {
+    width: 33.3%;
+  }
+}
+@keyframes pulse {
+  0% {
+    background-color: #FFEE71;
+  }
+  100% {
+    background-color: #2DCA6F;
+  }
+}
+.attachment-editor-wrapper {
+  float: left;
+  width: 100%;
+}
+.attachment-editor-wrapper .action-buttons {
+  text-align: center;
+}
+.attachment-editor-wrapper .action-buttons .btn {
+  height: 33px;
+  width: 150px;
+  margin: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
+  border: none;
+  cursor: pointer;
+}
+.attachment-editor-wrapper .action-buttons .btn:hover {
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
+}
+.attachment-editor-wrapper .action-buttons .btn-cancel {
+  background-color: #000000;
+}
+.attachment-editor-wrapper .action-buttons .btn-cancel:hover {
+  background-color: #5A5A5A;
+}
+.attachment-editor-wrapper .action-buttons .btn-checkin {
+  background-color: #2DCA6F;
+}
+.attachment-editor-wrapper .action-buttons .btn-checkin:hover {
+  background-color: #006C2D;
+}
+.attachment-editor {
+  height: 300px;
+  width: 85%;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid #999999;
+}
+.attachment-editor:hover {
+  cursor: text;
+}
+.attachment-editor .editor-placeholder {
+  width: 100%;
+  padding: 0;
+  border: none;
+  background-color: #ffffff;
+  font-size: 16px;
+  cursor: text;
+}
+.attachment-editor .editor-placeholder.ce-element {
+  display: none;
+}
+.attachment-editor .editor-input {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
