@@ -123,7 +123,7 @@ body {
   width: 100%;
 }
 .attachment-editor-wrapper .action-buttons {
-  text-align: center;
+  text-align: right;
 }
 .attachment-editor-wrapper .action-buttons .btn {
   height: 33px;
@@ -149,6 +149,12 @@ body {
 }
 .attachment-editor-wrapper .action-buttons .btn-checkin:hover {
   background-color: #006C2D;
+}
+.attachment-editor-wrapper .action-buttons .btn-reset {
+  background-color: #DF0E1D;
+}
+.attachment-editor-wrapper .action-buttons .btn-reset:hover {
+  background-color: #AC1B25;
 }
 .attachment-editor {
   height: 300px;
