@@ -12,6 +12,8 @@ class EditorBox extends Component {
         this.onEditorFocus = this.onEditorFocus.bind(this);
         this.onEditorCancel = this.onEditorCancel.bind(this);
         this.onEditorCheckin = this.onEditorCheckin.bind(this);
+        this.onEditorSaved = this.onEditorSaved.bind(this);
+
     }
     onEditorFocus() {
         console.log('focus fired');
@@ -39,6 +41,9 @@ class EditorBox extends Component {
         this.setState({
             editor: editor
         })
+    }
+    onEditorSaved(regions) {
+        console.log(regions);
     }
     componentDidMount() {
         var DEFAULT_TOOLS = [
@@ -68,7 +73,7 @@ class EditorBox extends Component {
 
         editor.addEventListener('saved', function (ev) {
             var regions = ev.detail().regions;
-            console.log(regions);
+            this.onEditorSaved(regions);// when "saved" pass to onEditorSaved
         })
 
         this.setState({
@@ -84,6 +89,7 @@ class EditorBox extends Component {
                     <p className='editor-input'></p>
                 </div>
                 <div className='action-buttons'>
+                    <button className='btn btn-reset'>Reset Form</button>
                     <button className='btn btn-cancel' onClick={this.onEditorCancel}>Cancel</button>
                     <button className='btn btn-checkin' onClick={this.onEditorCheckin}>Check In</button>
                 </div>
