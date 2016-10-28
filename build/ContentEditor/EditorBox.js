@@ -34,6 +34,8 @@ var EditorBox = function (_Component) {
         _this.onEditorFocus = _this.onEditorFocus.bind(_this);
         _this.onEditorCancel = _this.onEditorCancel.bind(_this);
         _this.onEditorCheckin = _this.onEditorCheckin.bind(_this);
+        _this.onEditorSaved = _this.onEditorSaved.bind(_this);
+
         return _this;
     }
 
@@ -71,6 +73,11 @@ var EditorBox = function (_Component) {
             });
         }
     }, {
+        key: 'onEditorSaved',
+        value: function onEditorSaved(regions) {
+            console.log(regions);
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var DEFAULT_TOOLS = [['bold', 'italic'], ['align-left', 'align-center', 'align-right'], ['unordered-list', 'ordered-list'], ['indent', 'unindent']];
@@ -82,7 +89,7 @@ var EditorBox = function (_Component) {
 
             editor.addEventListener('saved', function (ev) {
                 var regions = ev.detail().regions;
-                console.log(regions);
+                this.onEditorSaved(regions); // when "saved" pass to onEditorSaved
             });
 
             this.setState({
@@ -105,6 +112,11 @@ var EditorBox = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'action-buttons' },
+                    _react2.default.createElement(
+                        'button',
+                        { className: 'btn btn-reset' },
+                        'Reset Form'
+                    ),
                     _react2.default.createElement(
                         'button',
                         { className: 'btn btn-cancel', onClick: this.onEditorCancel },
