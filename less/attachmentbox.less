@@ -1,0 +1,202 @@
+// HIDE EDIT BUTTON
+.ct-ignition,
+.ct-inspector{
+    display:none;
+}
+.attachment-here{
+    margin-bottom: 100px;
+}
+// ATTACHMENT BOX SECTION
+.attachment-zone{
+    padding: 20px;
+}
+
+// attachment box
+.attachments{
+    height: 15em;
+    width: 75%;
+    margin: 0 auto;
+    border: 2px dashed #999999;
+    border-radius: 10px;
+    padding: 20px;
+
+    &.dragon{
+        animation: pulse 1s 4;
+
+        & .dragged-msg{
+            display:block;
+        }
+        & .default-msg{
+            display:none;
+        }
+    }
+
+    // INSIDE TEXT
+    & .dragged-msg{
+        display:none;
+
+        & .attachment-instructions,
+        & .attachment-flair:before
+        {
+            color: #ffffff;
+        }
+    }
+    & .attachment-instructions{
+        font-size: 2em;
+        text-align: center;
+        color: #999999;
+    }
+
+    // INSIDE ICON
+    & .attachment-flair{
+        display:block;
+        text-align: center;
+
+        &:before{
+            color: #999999;
+            font-size: 2em;
+        }
+    }
+
+    // INPUT TYPE=FILE
+    & input[type=file]{
+        display:none;
+    }
+}
+
+// PREVIEW FILES SECTION
+.attachment-preview{
+    border-top: 1px solid #999999;
+    padding-top: 100px;
+    margin-top: 100px;
+
+    & .attachment-item{
+        float:left;
+        width: 100%;
+
+        & > div{
+            border:1px solid #999999;
+            margin: 10px;
+        }
+
+        & .attachment-counter{            
+            color: #444444;
+        }
+        & .btn-select-file{
+            width: 35%;
+            margin-bottom: 20px;
+
+            &:hover{
+                cursor: pointer;
+            }
+
+            & .attachment-icon{
+                width: 100%;
+            }
+
+        }     
+        & span{
+            display:block;
+        } 
+
+    }
+
+    & .high-details{
+        text-align:center;
+    }
+
+
+}
+@media(max-width: 400px){
+    .attachment-preview .attachment-item{
+        width: 100%;
+    }
+}
+@media(min-width: 401px){
+    .attachment-preview .attachment-item{
+        width: 50%;
+    }
+}
+@media(min-width: 700px){
+    .attachment-preview .attachment-item{
+        width: 33.3%;
+    }
+}
+
+@keyframes pulse{
+    0%{
+        background-color: #FFEE71;
+    }
+    100%{
+        background-color: #2DCA6F;
+    }
+}
+.attachment-editor-wrapper{
+    float:left;
+    width: 100%;
+
+    & .action-buttons{
+        text-align:center;
+
+        & .btn{
+            height: 33px;
+            width: 150px;
+            margin: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            box-shadow: 0 0 1px 0 rgba(0,0,0,0.8);
+            border:none;
+            cursor: pointer;
+
+            &:hover{
+                box-shadow: 0 0 3px 1px rgba(0,0,0,0.8);
+            }
+        }
+
+        & .btn-cancel{
+            background-color: #000000;
+
+            &:hover{
+                background-color: #5A5A5A;
+            }
+        }
+        & .btn-checkin{
+            background-color: #2DCA6F;
+
+            &:hover{
+                background-color: #006C2D;
+            }
+        }
+    }
+}
+.attachment-editor{
+    height: 300px;
+    width: 85%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #999999;
+
+    &:hover{
+        cursor: text;
+    }
+
+    & .editor-placeholder{
+        width: 100%;
+        padding: 0;
+        border:none;
+        background-color: #ffffff;
+        font-size: 16px;
+        cursor: text;
+
+        &.ce-element{
+            display:none;
+        }
+    }
+
+    & .editor-input{
+        padding: 0;
+        margin: 0;
+        height: 100%;
+
+    }
+}
