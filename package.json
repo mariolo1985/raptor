@@ -7,7 +7,9 @@
     "build:css": "lessc less/master.less css/master.css && cleancss -o css/master.min.css css/master.css",
     "build:component": "babel ./component --out-dir ./build",
     "build:injector": "NODE_ENV=production webpack --process -p",
-    "build:web": "npm run build:css && npm run build:component && npm run build:injector"
+    "build:devinjector": "webpack --process -p",
+    "build:dev": "npm run build:css && npm run build:component && npm run build:devinjector",
+    "build:prod": "npm run build:css && npm run build:component && npm run build:injector"
   },
   "repository": {
     "type": "git",
