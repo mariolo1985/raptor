@@ -35,17 +35,20 @@ class EditorBox extends Component {
     }
     onEditorCheckin() {
         console.log('editor checkin');
-        var editor = this.state.editor;
-        editor.save(true);
+        this.props.onPostFiles();
 
-        this.setState({
-            editor: editor
-        })
+        var editor = this.state.editor;
+        editor.save(true);// TRIGGER SAVED EVENT LISTENER
+
+        // do not update state yet
+        // set state from oneditorsaved
     }
     onEditorSaved(regions) {
-        console.log(regions);
+        console.log('on editor saved');
     }
     componentDidMount() {
+
+        // CREATE EDITOR / RICH TEXT BOX
         var DEFAULT_TOOLS = [
             [
                 'bold',
@@ -69,11 +72,13 @@ class EditorBox extends Component {
 
         var editor = null;
         editor = ContentTools.EditorApp.get();
-        editor.init('*[data-editable]', 'data-name');
+        editor.init('*[data-editable]', 'data-name');// INIT EDITOR
 
+        // EDITOR SAVED EVENT
         editor.addEventListener('saved', function (ev) {
             var regions = ev.detail().regions;
-            this.onEditorSaved(regions);// when "saved" pass to onEditorSaved
+            console.log(regions);
+            //this.onEditorSaved(regions);// when "saved" pass to onEditorSaved
         })
 
         this.setState({
@@ -89,8 +94,8 @@ class EditorBox extends Component {
                     <p className='editor-input'></p>
                 </div>
                 <div className='action-buttons'>
-                    <button className='btn btn-reset'>Reset Form</button>
                     <button className='btn btn-cancel' onClick={this.onEditorCancel}>Cancel</button>
+                    <button className='btn btn-reset'>Reset Form</button>
                     <button className='btn btn-checkin' onClick={this.onEditorCheckin}>Check In</button>
                 </div>
             </div>

@@ -15,84 +15,11 @@
 <body>
 	<div id='attachment-here'></div>
 
-
-	<!--
-	<div class='attachment-editor' tabindex='-1' data-editable data-name="main-content">
-		<input type='text' disabled placeholder='Enter Check-In Comments here....' class='editor-placeholder' />
-		<p class='editor-input'></p>
-	</div>
-
-	<button class='btn-edit'>Edit</button>
-	<button class='btn-save'>Save</button>
-	<button class='btn-cancel'>Cancel</button>
-
--->
-
-
-
-
 	<script src='js/jquery.js'></script>
 	<script src='frameworks/ContentTools/content-tools.min.js'></script>
-
 	<script src='build/webpackd/index_bundle.js'></script>
 
-	<!--
-	<script>
-		window.onload= function(){
-			// Defaults to
-			var DEFAULT_TOOLS = [
-				[
-					'bold',
-					'italic'
-				],
-				[
-					'align-left',
-					'align-center',
-					'align-right'
-				],
-				[
-					'unordered-list',
-					'ordered-list'
-				],
-				[
-					'indent',
-					'unindent',
-				]
-			];
-			//ContentTools.DEFAULT_TOOLS = DEFAULT_TOOLS;
-			var editor = null;
-			ContentTools.DEFAULT_TOOLS = DEFAULT_TOOLS;
 
-
-			editor = ContentTools.EditorApp.get();
-			editor.init('*[data-editable]', 'data-name');
-
-			$('.attachment-editor').on('focus', function(){
-				console.log('focused');
-				editor.start();
-			});
-
-			$('.btn-edit').click(function(){
-				editor.start();
-			});
-
-			$('.btn-save').click(function(){
-				editor.save(true);
-			});
-
-			$('.btn-cancel').click(function(){
-				editor.stop(false);
-				//editor.revert();
-			});
-
-			editor.addEventListener('saved', function(ev){
-				var regions = ev.detail().regions;
-				console.log('saving...');
-				console.log(regions);
-			});
-		}
-	</script>
--->
 </body>
 
 </html>
