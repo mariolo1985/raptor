@@ -41,7 +41,7 @@ var Attachment = function (_Component) {
         };
 
         _this.onDrop = _this.onDrop.bind(_this);
-
+        _this.postFiles = _this.postFiles.bind(_this);
         return _this;
     }
 
@@ -50,6 +50,37 @@ var Attachment = function (_Component) {
         value: function onDrop(results) {
             this.setState({
                 files: results
+            });
+        }
+    }, {
+        key: 'postFiles',
+        value: function postFiles() {
+            console.log('post file called');
+            console.log(this.state.files);
+
+            var fd = new FormData();
+            for (var i = 0; i < this.state.files.length; i++) {
+                fd.append('file_' + i + 1, this.state.files[i]);
+            }
+            console.log(fd);
+
+            $.ajax({
+                url: './services/putfile.php',
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: fd
+            }).done(function (a, b, c) {
+                console.log('Success POST');
+                console.log(a);
+                console.log(b);
+                console.log(c);
+            }).fail(function (a, b, c) {
+                console.log('Failed POST');
+                console.log(a);
+                console.log(b);
+                console.log(c);
             });
         }
     }, {
@@ -107,7 +138,7 @@ var Attachment = function (_Component) {
                         };
                         return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
                     }),
-                    _react2.default.createElement(_ContentEditor.EditorBox, null)
+                    _react2.default.createElement(_ContentEditor.EditorBox, { onPostFiles: this.postFiles })
                 ) : null
             );
         }

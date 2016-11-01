@@ -65,31 +65,36 @@ var EditorBox = function (_Component) {
         key: 'onEditorCheckin',
         value: function onEditorCheckin() {
             console.log('editor checkin');
-            var editor = this.state.editor;
-            editor.save(true);
+            this.props.onPostFiles();
 
-            this.setState({
-                editor: editor
-            });
+            var editor = this.state.editor;
+            editor.save(true); // TRIGGER SAVED EVENT LISTENER
+
+            // do not update state yet
+            // set state from oneditorsaved
         }
     }, {
         key: 'onEditorSaved',
         value: function onEditorSaved(regions) {
-            console.log(regions);
+            console.log('on editor saved');
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+
+            // CREATE EDITOR / RICH TEXT BOX
             var DEFAULT_TOOLS = [['bold', 'italic'], ['align-left', 'align-center', 'align-right'], ['unordered-list', 'ordered-list'], ['indent', 'unindent']];
             ContentTools.DEFAULT_TOOLS = DEFAULT_TOOLS;
 
             var editor = null;
             editor = ContentTools.EditorApp.get();
-            editor.init('*[data-editable]', 'data-name');
+            editor.init('*[data-editable]', 'data-name'); // INIT EDITOR
 
+            // EDITOR SAVED EVENT
             editor.addEventListener('saved', function (ev) {
                 var regions = ev.detail().regions;
-                this.onEditorSaved(regions); // when "saved" pass to onEditorSaved
+                console.log(regions);
+                //this.onEditorSaved(regions);// when "saved" pass to onEditorSaved
             });
 
             this.setState({
@@ -114,13 +119,13 @@ var EditorBox = function (_Component) {
                     { className: 'action-buttons' },
                     _react2.default.createElement(
                         'button',
-                        { className: 'btn btn-reset' },
-                        'Reset Form'
+                        { className: 'btn btn-cancel', onClick: this.onEditorCancel },
+                        'Cancel'
                     ),
                     _react2.default.createElement(
                         'button',
-                        { className: 'btn btn-cancel', onClick: this.onEditorCancel },
-                        'Cancel'
+                        { className: 'btn btn-reset' },
+                        'Reset Form'
                     ),
                     _react2.default.createElement(
                         'button',
