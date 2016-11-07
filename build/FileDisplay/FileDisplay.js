@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -6,9 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _ = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,58 +20,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var FilePreview = function (_Component) {
-    _inherits(FilePreview, _Component);
+var FileDisplay = function (_Component) {
+    _inherits(FileDisplay, _Component);
 
-    function FilePreview(props) {
-        _classCallCheck(this, FilePreview);
+    function FileDisplay(props) {
+        _classCallCheck(this, FileDisplay);
 
-        return _possibleConstructorReturn(this, (FilePreview.__proto__ || Object.getPrototypeOf(FilePreview)).call(this, props));
+        return _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
     }
 
-    _createClass(FilePreview, [{
-        key: "render",
+    _createClass(FileDisplay, [{
+        key: 'render',
         value: function render() {
-            var key = this.props.childKey;
-            var fileCounter = key + 1;
-            var file = this.props.file,
-                filename = file.name,
-                extIndex = filename.lastIndexOf("."),
-                fileExt = filename.substring(extIndex + 1);
-            var isSketchFile = false;
-
-            if (fileExt.toLowerCase() == "sketch") {
-                isSketchFile = true;
-            }
 
             return _react2.default.createElement(
-                "div",
-                { className: "attachment-item" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "center-helper" },
-                    _react2.default.createElement(
-                        "h3",
-                        { className: "attachment-counter" },
-                        "File ",
-                        fileCounter
-                    ),
-                    _react2.default.createElement(
-                        "button",
-                        { className: "btn-select-file" },
-                        _react2.default.createElement("i", { className: "fa fa-file" })
-                    ),
-                    _react2.default.createElement(
-                        "span",
-                        null,
-                        file.name
-                    )
-                )
+                'div',
+                { className: 'file-display-wrapper' },
+                this.props.sets.map(function (set, i) {
+                    return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
+                })
             );
         }
     }]);
 
-    return FilePreview;
+    return FileDisplay;
 }(_react.Component);
 
-exports.default = FilePreview;
+exports.default = FileDisplay;
