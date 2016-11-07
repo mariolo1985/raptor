@@ -13,6 +13,42 @@ body {
 .center-helper {
   text-align: center;
 }
+.header-wrapper {
+  background-color: #999999;
+}
+.header-content {
+  float: left;
+}
+.logo-header {
+  width: 10%;
+  text-align: right;
+}
+.logo-header .logo {
+  padding: 10px;
+}
+.logo-header .logo .header-img {
+  width: 100%;
+}
+.menu-wrapper {
+  width: 80%;
+}
+.menu-wrapper .menu {
+  list-style: none;
+}
+.menu-wrapper .menu .menu-item {
+  float: left;
+  width: 33%;
+}
+.menu-wrapper .menu .menu-item .menu-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+.search-wrapper {
+  width: 10%;
+}
+.search-wrapper .btn-search {
+  float: right;
+}
 .ct-ignition,
 .ct-inspector {
   display: none;
