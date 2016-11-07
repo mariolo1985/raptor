@@ -23,11 +23,7 @@ class FilePreview extends Component {
                 <div className='center-helper'>
                     <h3 className='attachment-counter'>File {fileCounter}</h3>
                     <button className='btn-select-file'>
-                        {
-                            isSketchFile ?
-                                <img className='attachment-icon' src='images/sketchicon.png' />
-                                : <img className='attachment-icon' src={file.preview} />
-                        }
+                        <i className='fa fa-file' />
                     </button>
                     <span>{file.name}</span>
                 </div>
