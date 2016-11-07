@@ -37,8 +37,8 @@ class EditorBox extends Component {
         console.log('editor checkin');
         this.props.onPostFiles();
 
-        var editor = this.state.editor;
-        editor.save(true);// TRIGGER SAVED EVENT LISTENER
+        //var editor = this.state.editor;
+        //editor.save(true);// TRIGGER SAVED EVENT LISTENER
 
         // do not update state yet
         // set state from oneditorsaved
