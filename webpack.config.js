@@ -2,11 +2,11 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: [
-        './js/index.js'
+        './js/review.js'
     ],
     output: {
         path: __dirname + '/build/webpackd',
-        filename: "index_bundle.js"
+        filename: "review_bundle.js"
     },
     module: {
         loaders: [
