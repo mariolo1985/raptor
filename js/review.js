@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import FileDisplay from '../build/FileDisplay/FileDisplay.js';
-import {MainNav} from '../build';
+import {MainNav,FileDisplay} from '../build';
 
 window.onload = function () {
     render(
