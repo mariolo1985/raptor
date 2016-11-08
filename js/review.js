@@ -33,7 +33,7 @@ function getPendingElements() {
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    Filter: "BY_SETID",
+                    Filter: "BY_SETS",
                     Sets: result
                 }
             })
