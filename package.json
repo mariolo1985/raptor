@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:css": "lessc less/master.less css/master.css && cleancss -o css/master.min.css css/master.css",
-    "build:component": "babel ./component --out-dir ./build",
+    "build:component": "babel ./component --out-dir ./build && uglifyjs js/base.js -o js/base.min.js",
     "build:injector": "NODE_ENV=production webpack --process -p",
-    "build:devinjector": "webpack --process -p",
+    "build:devinjector": "webpack --process",
     "build:dev": "npm run build:css && npm run build:component && npm run build:devinjector",
     "build:prod": "npm run build:css && npm run build:component && npm run build:injector"
   },
