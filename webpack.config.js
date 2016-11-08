@@ -7,6 +7,9 @@ module.exports = {
         ],
         index: [
             './js/index.js'
+        ],
+        reviewitem: [
+            './js/reviewitem.js'
         ]
     },
     output: {
