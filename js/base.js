@@ -1,40 +1,11 @@
-function putFile(formdata) {
-    $.ajax({
-        url: './services/putfile.php',
-        type: 'POST',
-        cache: false,
-        processData: false,
-        contentType: false,
-        data: formdata
-    })
-        .done(function (result, b, c) {
-            // ONCE UPLOADED THAN ADD METADTA TO DB
-
-            $.ajax({
-                url: './services/addfilemeta.php',
-                type: 'POST',
-                data:
-                {
-                    SetId: result
-                }
-            })
-                .done(function (result, b, c) {
-                    console.log('Success POST addfilemeta');
-                })
-                .fail(function (a, b, c) {
-                    console.log('Failed POST');
-                    console.log(a);
-                    console.log(b);
-                    console.log(c);
-                });
-
-        })
-        .fail(function (a, b, c) {
-            console.log('Failed POST');
-            console.log(a);
-            console.log(b);
-            console.log(c);
-        });
-
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
