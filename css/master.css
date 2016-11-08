@@ -49,6 +49,37 @@ body {
 .search-wrapper .btn-search {
   float: right;
 }
+.btn {
+  height: 33px;
+  width: 150px;
+  margin: 10px;
+  color: #ffffff;
+  font-size: 16px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
+  border: none;
+  cursor: pointer;
+}
+.btn:hover {
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
+}
+.btn.btn-cancel {
+  background-color: #000000;
+}
+.btn.btn-cancel:hover {
+  background-color: #5A5A5A;
+}
+.btn.btn-checkin {
+  background-color: #2DCA6F;
+}
+.btn.btn-checkin:hover {
+  background-color: #006C2D;
+}
+.btn.btn-reset {
+  background-color: #DF0E1D;
+}
+.btn.btn-reset:hover {
+  background-color: #AC1B25;
+}
 .ct-ignition,
 .ct-inspector {
   display: none;
@@ -161,37 +192,6 @@ body {
 .attachment-editor-wrapper .action-buttons {
   text-align: right;
 }
-.attachment-editor-wrapper .action-buttons .btn {
-  height: 33px;
-  width: 150px;
-  margin: 10px;
-  color: #ffffff;
-  font-size: 16px;
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
-  border: none;
-  cursor: pointer;
-}
-.attachment-editor-wrapper .action-buttons .btn:hover {
-  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
-}
-.attachment-editor-wrapper .action-buttons .btn-cancel {
-  background-color: #000000;
-}
-.attachment-editor-wrapper .action-buttons .btn-cancel:hover {
-  background-color: #5A5A5A;
-}
-.attachment-editor-wrapper .action-buttons .btn-checkin {
-  background-color: #2DCA6F;
-}
-.attachment-editor-wrapper .action-buttons .btn-checkin:hover {
-  background-color: #006C2D;
-}
-.attachment-editor-wrapper .action-buttons .btn-reset {
-  background-color: #DF0E1D;
-}
-.attachment-editor-wrapper .action-buttons .btn-reset:hover {
-  background-color: #AC1B25;
-}
 .attachment-editor {
   height: 300px;
   width: 85%;
@@ -217,4 +217,19 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
+}
+.file-set-container {
+  border: 1px solid #999999;
+  margin: 50px 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.file-row > div {
+  float: left;
+}
+.file-row .file-set {
+  width: 75%;
+}
+.file-row .file-action {
+  width: 25%;
 }
