@@ -11,19 +11,27 @@ if (isset($_GET['Filter'])){
             $conn = $_dbhelper->getDefaultConnected();
             $result = $_dbhelper->getPendingElements($conn);
             echo json_encode($result);
-        break;
+            break;
 
-        case "BY_SETID":
+        case "BY_SETS":
             include "filehelper.php";
             $_filehelper = new FileHelper();
             $sets = $_GET['Sets'];
             $result = $_filehelper->getPendingFilesMetadata($sets);
             echo json_encode($result);
             
-        break;
+            break;
+
+        case "BY_SETID":
+            include "filehelper.php";
+            $_filehelper = new FileHelper();
+            $setid = $_GET['SetId'];
+            $result = $_filehelper->getPendingFilesBySetId($setid);
+            echo json_encode($result);
+            break;
 
         default:
-        break;
+            break;
     }
 }
 

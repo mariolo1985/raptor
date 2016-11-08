@@ -57,7 +57,11 @@ class FileHelper
             $uploadDate = $set['UploadDate'];
             $tmp = json_decode($this->getPendingFilesBySetId($setId),true);
             
-            // ADD UPLOAD DATE TO DATA
+            // INCLUDE SET ID 
+            $tmp[] = array(
+                'SetId'=>$setId
+            );
+            // INCLUDE UPLOAD DATE TO DATA
             $tmp[] = array(
                 'Upload Date'=>$uploadDate
             );
