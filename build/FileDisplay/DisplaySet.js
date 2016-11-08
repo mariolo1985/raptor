@@ -31,30 +31,71 @@ var DisplaySet = function (_Component) {
         key: 'render',
         value: function render() {
             var jSet = JSON.parse(this.props.set);
-            var uploadDate;
+            var uploadDate, setId;
             var filenames = [];
             jSet.map(function (item, i) {
                 if (item['Upload Date']) {
                     uploadDate = item['Upload Date'];
+
+                    uploadDate = new Date(uploadDate);
+                    var hours = uploadDate.getHours();
+                    var minutes = uploadDate.getMinutes();
+                    var ampm = hours >= 12 ? 'pm' : 'am';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // the hour '0' should be '12'
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    var strTime = hours + ':' + minutes + ' ' + ampm;
+
+                    uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+                } else if (item['SetId']) {
+                    setId = item['SetId'];
                 } else if (item['filename']) {
                     filenames.push(item['filename']);
                 }
             });
             return _react2.default.createElement(
                 'div',
-                { className: 'file-set' },
+                { className: 'file-set-container', 'data-setid': setId },
                 _react2.default.createElement(
-                    'h2',
-                    null,
-                    uploadDate
-                ),
-                filenames.map(function (item, i) {
-                    return _react2.default.createElement(
-                        'p',
-                        { key: i },
-                        item
-                    );
-                })
+                    'div',
+                    { className: 'file-row clear' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'file-set' },
+                        _react2.default.createElement(
+                            'h2',
+                            null,
+                            'Uploaded on ',
+                            uploadDate,
+                            ' for review:'
+                        ),
+                        filenames.map(function (item, i) {
+                            return _react2.default.createElement(
+                                'div',
+                                { className: 'file-item' },
+                                _react2.default.createElement(
+                                    'p',
+                                    { key: i },
+                                    item
+                                )
+                            );
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'file-action' },
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'btn btn-checkin' },
+                            'Approve'
+                        ),
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'btn btn-reset' },
+                            'Reject'
+                        )
+                    )
+                )
             );
         }
     }]);

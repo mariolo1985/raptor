@@ -44,63 +44,11 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(183);
 
 
 /***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(35);
-
-	var _build = __webpack_require__(173);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function putFile(formdata) {
-	    $.ajax({
-	        url: './services/putfile.php',
-	        type: 'POST',
-	        cache: false,
-	        processData: false,
-	        contentType: false,
-	        data: formdata
-	    }).done(function (result, b, c) {
-	        // ONCE UPLOADED THAN ADD METADTA TO DB
-
-	        $.ajax({
-	            url: './services/addfilemeta.php',
-	            type: 'POST',
-	            data: {
-	                SetId: result
-	            }
-	        }).done(function (result, b, c) {
-	            console.log('Success POST addfilemeta');
-	            window.location = './review.html';
-	        }).fail(function (a, b, c) {
-	            console.log('Failed POST');
-	            console.log(a);
-	            console.log(b);
-	            console.log(c);
-	        });
-	    }).fail(function (a, b, c) {
-	        console.log('Failed POST');
-	        console.log(a);
-	        console.log(b);
-	        console.log(c);
-	    });
-	}
-
-	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
-	(0, _reactDom.render)(_react2.default.createElement(_build.Attachment, null), document.getElementById('attachment-here'));
-
-/***/ },
+/* 1 */,
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22492,6 +22440,48 @@
 	}(_react.Component);
 
 	exports.default = DisplaySet;
+
+/***/ },
+/* 182 */,
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _build = __webpack_require__(173);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	window.onload = function () {
+
+	    (0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
+
+	    var setid = getParameterByName('setid');
+	    if (setid != null) {
+	        // CALL GET SET ID
+	        $.ajax({
+	            url: './services/getfiles.php',
+	            type: 'GET',
+	            data: {
+	                Filter: 'BY_SETID',
+	                SetId: setid
+	            }
+	        }).done(function (result) {
+	            console.log(result);
+	        }).fail(function (a, b, c) {
+	            console.log('failed');
+	            console.log(a);
+	            console.log(b);
+	            console.log(c);
+	        });
+	    }
+	};
 
 /***/ }
 /******/ ]);

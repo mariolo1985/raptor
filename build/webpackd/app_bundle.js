@@ -44,7 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	__webpack_require__(1);
+	module.exports = __webpack_require__(182);
 
 
 /***/ },
@@ -63,42 +64,53 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function putFile(formdata) {
-	    $.ajax({
-	        url: './services/putfile.php',
-	        type: 'POST',
-	        cache: false,
-	        processData: false,
-	        contentType: false,
-	        data: formdata
-	    }).done(function (result, b, c) {
-	        // ONCE UPLOADED THAN ADD METADTA TO DB
+	window.onload = function () {
+	    (0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
+	    getPendingElements();
+	};
 
+	// GETS PENDING ELEMENTS
+	function getPendingElements() {
+
+	    $.ajax({
+	        //  THIS CALLS THE DB ON PENDING ELEMENTS TABLE
+	        url: './services/getfiles.php',
+	        type: 'GET',
+	        dataType: 'json',
+	        data: {
+	            Filter: "PENDING_ELEMENTS"
+	        }
+	    }).done(function (result) {
 	        $.ajax({
-	            url: './services/addfilemeta.php',
-	            type: 'POST',
+	            // GET EACH SET FILE IN A SET
+	            url: './services/getfiles.php',
+	            type: 'GET',
+	            dataType: 'json',
 	            data: {
-	                SetId: result
+	                Filter: "BY_SETID",
+	                Sets: result
 	            }
-	        }).done(function (result, b, c) {
-	            console.log('Success POST addfilemeta');
-	            window.location = './review.html';
+	        }).done(function (result) {
+	            renderElements(result);
 	        }).fail(function (a, b, c) {
-	            console.log('Failed POST');
+	            console.log('Failed BY_SETID POST');
 	            console.log(a);
 	            console.log(b);
 	            console.log(c);
 	        });
 	    }).fail(function (a, b, c) {
-	        console.log('Failed POST');
+	        console.log('Failed PENDING_ELEMENTS POST');
 	        console.log(a);
 	        console.log(b);
 	        console.log(c);
 	    });
 	}
 
-	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
-	(0, _reactDom.render)(_react2.default.createElement(_build.Attachment, null), document.getElementById('attachment-here'));
+	// COMPONENT
+	function renderElements(elements) {
+
+	    (0, _reactDom.render)(_react2.default.createElement(_build.FileDisplay, { sets: elements }), document.getElementById('file-display'));
+	}
 
 /***/ },
 /* 2 */
@@ -22388,7 +22400,7 @@
 	        key: 'render',
 	        value: function render() {
 
-	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, this.props.sets.map(function (set, i) {
+	            return _react2.default.createElement('div', { className: 'file-display-wrapper clear' }, this.props.sets.map(function (set, i) {
 	                return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
 	            }));
 	        }
@@ -22482,9 +22494,9 @@
 	                    filenames.push(item['filename']);
 	                }
 	            });
-	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('h2', null, 'Uploaded on ', uploadDate, ' for review:'), filenames.map(function (item, i) {
+	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('h2', null, 'Uploaded on ', uploadDate, ' for review.'), filenames.map(function (item, i) {
 	                return _react2.default.createElement('div', { className: 'file-item' }, _react2.default.createElement('p', { key: i }, item));
-	            })), _react2.default.createElement('div', { className: 'file-action' }, _react2.default.createElement('button', { className: 'btn btn-checkin' }, 'Approve'), _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reject'))));
+	            })));
 	        }
 	    }]);
 
@@ -22492,6 +22504,25 @@
 	}(_react.Component);
 
 	exports.default = DisplaySet;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _build = __webpack_require__(173);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
+	(0, _reactDom.render)(_react2.default.createElement(_build.Attachment, null), document.getElementById('attachment-here'));
 
 /***/ }
 /******/ ]);
