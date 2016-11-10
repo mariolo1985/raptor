@@ -1,6 +1,6 @@
 function getParameterByName(name, url) {
     if (!url) {
-      url = window.location.href;
+        url = window.location.href;
     }
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -12,13 +12,7 @@ function getParameterByName(name, url) {
 
 
 function createEditor() {
-    promiseEditor().then(function(editors){
-        console.log(editors);
-    });
-}
-
-function promiseEditor(){
-        var temp = tinymce.init({
+    var temp = tinymce.init({
         selector: '.editor',
         plugins: ['link', 'image', 'media'],
         default_link_target: '_blank',
@@ -32,4 +26,68 @@ function promiseEditor(){
     });
 
     return temp;
+}
+
+
+// SERVICES
+function putFile(formdata, comments) {
+    $.ajax({
+        url: './services/putfile.php',
+        type: 'POST',
+        cache: false,
+        processData: false,
+        contentType: false,
+        data: formdata
+    })
+        .done(function (result, b, c) {
+            // ONCE UPLOADED THAN ADD METADTA TO DB
+            addFileMeta(result);
+            putComments(result, comments);
+        })
+        .fail(function (a, b, c) {
+            console.log('Failed POST');
+            console.log(a);
+            console.log(b);
+            console.log(c);
+        });
+
+}
+
+function addFileMeta(setid) {
+    $.ajax({
+        url: './services/addfilemeta.php',
+        type: 'POST',
+        data:
+        {
+            SetId: setid
+        }
+    })
+        .done(function (result, b, c) {
+            
+        })
+        .fail(function (a, b, c) {
+            console.log('Failed POST');
+            console.log(a);
+            console.log(b);
+            console.log(c);
+        });
+}
+
+function putComments(setid, comments) {
+    $.ajax({
+        url: './services/putcomments.php',
+        type: "POST",
+        data: {
+            SetId: setid,
+            Comments: comments
+        }
+    }).done(function (result) {
+        if (result == 'TRUE') {
+            window.location = './review.html';
+        }
+    }).fail(function (a, b, c) {
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    })
 }
