@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
 import { FilePreview } from '../';
-import { EditorBox } from '../ContentEditor'
 
 
 class Attachment extends Component {
@@ -17,8 +16,18 @@ class Attachment extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
     }
     onDrop(results) {
+
+        var tempFiles = [];
+        if (this.state.files.length>0){
+            this.state.files.map((file)=>{
+                tempFiles.push(file);
+            })
+        }
+        results.map((file)=>{
+            tempFiles.push(file);
+        });
         this.setState({
-            files: results
+            files: tempFiles
         })
     }
     postFiles() {
@@ -26,9 +35,8 @@ class Attachment extends Component {
         for (var i = 0; i < this.state.files.length; i++) {
             fd.append('file_' + i + 1, this.state.files[i]);
         }
-        //putFile(fd);
-        console.log($('.editor').html());
-
+        var comments = $('.editor').html();
+        putFile(fd, comments);
     }
     componentDidMount() {
         createEditor();
@@ -39,6 +47,19 @@ class Attachment extends Component {
         return (
 
             <div className='attachment-wrapper'>
+                <div className='attachment-zone'>
+                    <h1 className='center-helper'>Attach New Elements For Preview</h1>
+                    <Dropzone className='attachments' activeClassName="dragon" onDrop={this.onDrop} disableClick multiple>
+                        <div className='default-msg'>
+                            <p className='attachment-instructions'>Drop Files Here</p>
+                            <i className='attachment-flair fa fa-anchor' />
+                        </div>
+                        <div className='dragged-msg'>
+                            <p className='attachment-instructions'>Drop to upload</p>
+                            <i className='attachment-flair fa fa-telegram' />
+                        </div>
+                    </Dropzone>
+                </div>
                 {this.state.files.length > 0 ?
                     <div className='attachment-preview clear'>
                         <h2 className='high-details'>{highDetails}</h2>
@@ -54,19 +75,7 @@ class Attachment extends Component {
                         )}
                     </div>
                     :
-                    <div className='attachment-zone'>
-                        <h1 className='center-helper'>Attach New Elements For Preview</h1>
-                        <Dropzone className='attachments' activeClassName="dragon" onDrop={this.onDrop} disableClick multiple>
-                            <div className='default-msg'>
-                                <p className='attachment-instructions'>Drop Files Here</p>
-                                <i className='attachment-flair fa fa-anchor' />
-                            </div>
-                            <div className='dragged-msg'>
-                                <p className='attachment-instructions'>Drop to upload</p>
-                                <i className='attachment-flair fa fa-telegram' />
-                            </div>
-                        </Dropzone>
-                    </div>
+                    null
                 }
 
                 <div className='attachment-editor-wrapper'>
