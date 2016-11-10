@@ -63,40 +63,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function putFile(formdata) {
-	    $.ajax({
-	        url: './services/putfile.php',
-	        type: 'POST',
-	        cache: false,
-	        processData: false,
-	        contentType: false,
-	        data: formdata
-	    }).done(function (result, b, c) {
-	        // ONCE UPLOADED THAN ADD METADTA TO DB
-
-	        $.ajax({
-	            url: './services/addfilemeta.php',
-	            type: 'POST',
-	            data: {
-	                SetId: result
-	            }
-	        }).done(function (result, b, c) {
-	            console.log('Success POST addfilemeta');
-	            window.location = './review.html';
-	        }).fail(function (a, b, c) {
-	            console.log('Failed POST');
-	            console.log(a);
-	            console.log(b);
-	            console.log(c);
-	        });
-	    }).fail(function (a, b, c) {
-	        console.log('Failed POST');
-	        console.log(a);
-	        console.log(b);
-	        console.log(c);
-	    });
-	}
-
 	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
 	(0, _reactDom.render)(_react2.default.createElement(_build.Attachment, null), document.getElementById('attachment-here'));
 
@@ -21415,7 +21381,7 @@
 
 	var _Attachment3 = _interopRequireDefault(_Attachment2);
 
-	var _FilePreview2 = __webpack_require__(179);
+	var _FilePreview2 = __webpack_require__(177);
 
 	var _FilePreview3 = _interopRequireDefault(_FilePreview2);
 
@@ -21423,11 +21389,11 @@
 
 	var _EditorBox3 = _interopRequireDefault(_EditorBox2);
 
-	var _FileDisplay2 = __webpack_require__(180);
+	var _FileDisplay2 = __webpack_require__(179);
 
 	var _FileDisplay3 = _interopRequireDefault(_FileDisplay2);
 
-	var _DisplaySet2 = __webpack_require__(181);
+	var _DisplaySet2 = __webpack_require__(180);
 
 	var _DisplaySet3 = _interopRequireDefault(_DisplaySet2);
 
@@ -21553,8 +21519,6 @@
 
 	var _ = __webpack_require__(173);
 
-	var _ContentEditor = __webpack_require__(177);
-
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
 	}
@@ -21598,8 +21562,18 @@
 	    _createClass(Attachment, [{
 	        key: 'onDrop',
 	        value: function onDrop(results) {
+
+	            var tempFiles = [];
+	            if (this.state.files.length > 0) {
+	                this.state.files.map(function (file) {
+	                    tempFiles.push(file);
+	                });
+	            }
+	            results.map(function (file) {
+	                tempFiles.push(file);
+	            });
 	            this.setState({
-	                files: results
+	                files: tempFiles
 	            });
 	        }
 	    }, {
@@ -21609,8 +21583,8 @@
 	            for (var i = 0; i < this.state.files.length; i++) {
 	                fd.append('file_' + i + 1, this.state.files[i]);
 	            }
-	            //putFile(fd);
-	            console.log($('.editor').html());
+	            var comments = $('.editor').html();
+	            putFile(fd, comments);
 	        }
 	    }, {
 	        key: 'componentDidMount',
@@ -21622,13 +21596,13 @@
 	        value: function render() {
 	            var highDetails = this.state.files.length + " File(s) To Be Checked-In";
 	            var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
-	            return _react2.default.createElement('div', { className: 'attachment-wrapper' }, this.state.files.length > 0 ? _react2.default.createElement('div', { className: 'attachment-preview clear' }, _react2.default.createElement('h2', { className: 'high-details' }, highDetails), this.state.files.map(function (file, i) {
+	            return _react2.default.createElement('div', { className: 'attachment-wrapper' }, _react2.default.createElement('div', { className: 'attachment-zone' }, _react2.default.createElement('h1', { className: 'center-helper' }, 'Attach New Elements For Preview'), _react2.default.createElement(_reactDropzone2.default, { className: 'attachments', activeClassName: 'dragon', onDrop: this.onDrop, disableClick: true, multiple: true }, _react2.default.createElement('div', { className: 'default-msg' }, _react2.default.createElement('p', { className: 'attachment-instructions' }, 'Drop Files Here'), _react2.default.createElement('i', { className: 'attachment-flair fa fa-anchor' })), _react2.default.createElement('div', { className: 'dragged-msg' }, _react2.default.createElement('p', { className: 'attachment-instructions' }, 'Drop to upload'), _react2.default.createElement('i', { className: 'attachment-flair fa fa-telegram' })))), this.state.files.length > 0 ? _react2.default.createElement('div', { className: 'attachment-preview clear' }, _react2.default.createElement('h2', { className: 'high-details' }, highDetails), this.state.files.map(function (file, i) {
 	                var opt = {
 	                    file: file,
 	                    childKey: i
 	                };
 	                return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
-	            })) : _react2.default.createElement('div', { className: 'attachment-zone' }, _react2.default.createElement('h1', { className: 'center-helper' }, 'Attach New Elements For Preview'), _react2.default.createElement(_reactDropzone2.default, { className: 'attachments', activeClassName: 'dragon', onDrop: this.onDrop, disableClick: true, multiple: true }, _react2.default.createElement('div', { className: 'default-msg' }, _react2.default.createElement('p', { className: 'attachment-instructions' }, 'Drop Files Here'), _react2.default.createElement('i', { className: 'attachment-flair fa fa-anchor' })), _react2.default.createElement('div', { className: 'dragged-msg' }, _react2.default.createElement('p', { className: 'attachment-instructions' }, 'Drop to upload'), _react2.default.createElement('i', { className: 'attachment-flair fa fa-telegram' })))), _react2.default.createElement('div', { className: 'attachment-editor-wrapper' }, _react2.default.createElement('h3', null, 'Enter Check-In Comments:'), _react2.default.createElement('div', { className: 'toolbar' }), _react2.default.createElement('div', { className: 'editor' }), _react2.default.createElement('div', { className: 'action-buttons' }, _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reset Form'), _react2.default.createElement('button', { className: checkinClass, onClick: this.postFiles }, 'Check In'))));
+	            })) : null, _react2.default.createElement('div', { className: 'attachment-editor-wrapper' }, _react2.default.createElement('h3', null, 'Enter Check-In Comments:'), _react2.default.createElement('div', { className: 'toolbar' }), _react2.default.createElement('div', { className: 'editor' }), _react2.default.createElement('div', { className: 'action-buttons' }, _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reset Form'), _react2.default.createElement('button', { className: checkinClass, onClick: this.postFiles }, 'Check In'))));
 	        }
 	    }]);
 
@@ -22091,22 +22065,82 @@
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
-	exports.EditorBox = undefined;
 
-	var _EditorBox2 = __webpack_require__(178);
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
 
-	var _EditorBox3 = _interopRequireDefault(_EditorBox2);
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) {
-	  return obj && obj.__esModule ? obj : { default: obj };
+	    return obj && obj.__esModule ? obj : { default: obj };
 	}
 
-	exports.EditorBox = _EditorBox3.default;
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	    if (!self) {
+	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
+
+	function _inherits(subClass, superClass) {
+	    if (typeof superClass !== "function" && superClass !== null) {
+	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
+
+	var FilePreview = function (_Component) {
+	    _inherits(FilePreview, _Component);
+
+	    function FilePreview(props) {
+	        _classCallCheck(this, FilePreview);
+
+	        return _possibleConstructorReturn(this, (FilePreview.__proto__ || Object.getPrototypeOf(FilePreview)).call(this, props));
+	    }
+
+	    _createClass(FilePreview, [{
+	        key: "render",
+	        value: function render() {
+	            var key = this.props.childKey;
+	            var fileCounter = key + 1;
+	            var file = this.props.file,
+	                filename = file.name,
+	                extIndex = filename.lastIndexOf("."),
+	                fileExt = filename.substring(extIndex + 1);
+	            var isSketchFile = false;
+
+	            if (fileExt.toLowerCase() == "sketch") {
+	                isSketchFile = true;
+	            }
+
+	            return _react2.default.createElement("div", { className: "attachment-item" }, _react2.default.createElement("div", { className: "center-helper" }, _react2.default.createElement("h3", { className: "attachment-counter" }, "File ", fileCounter), _react2.default.createElement("button", { className: "btn-select-file" }, _react2.default.createElement("i", { className: "fa fa-file" })), _react2.default.createElement("span", null, file.name)));
+	        }
+	    }]);
+
+	    return FilePreview;
+	}(_react.Component);
+
+	exports.default = FilePreview;
 
 /***/ },
 /* 178 */
@@ -22237,87 +22271,6 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () {
-	    function defineProperties(target, props) {
-	        for (var i = 0; i < props.length; i++) {
-	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	        }
-	    }return function (Constructor, protoProps, staticProps) {
-	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	    };
-	}();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) {
-	    return obj && obj.__esModule ? obj : { default: obj };
-	}
-
-	function _classCallCheck(instance, Constructor) {
-	    if (!(instance instanceof Constructor)) {
-	        throw new TypeError("Cannot call a class as a function");
-	    }
-	}
-
-	function _possibleConstructorReturn(self, call) {
-	    if (!self) {
-	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-	}
-
-	function _inherits(subClass, superClass) {
-	    if (typeof superClass !== "function" && superClass !== null) {
-	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	}
-
-	var FilePreview = function (_Component) {
-	    _inherits(FilePreview, _Component);
-
-	    function FilePreview(props) {
-	        _classCallCheck(this, FilePreview);
-
-	        return _possibleConstructorReturn(this, (FilePreview.__proto__ || Object.getPrototypeOf(FilePreview)).call(this, props));
-	    }
-
-	    _createClass(FilePreview, [{
-	        key: "render",
-	        value: function render() {
-	            var key = this.props.childKey;
-	            var fileCounter = key + 1;
-	            var file = this.props.file,
-	                filename = file.name,
-	                extIndex = filename.lastIndexOf("."),
-	                fileExt = filename.substring(extIndex + 1);
-	            var isSketchFile = false;
-
-	            if (fileExt.toLowerCase() == "sketch") {
-	                isSketchFile = true;
-	            }
-
-	            return _react2.default.createElement("div", { className: "attachment-item" }, _react2.default.createElement("div", { className: "center-helper" }, _react2.default.createElement("h3", { className: "attachment-counter" }, "File ", fileCounter), _react2.default.createElement("button", { className: "btn-select-file" }, _react2.default.createElement("i", { className: "fa fa-file" })), _react2.default.createElement("span", null, file.name)));
-	        }
-	    }]);
-
-	    return FilePreview;
-	}(_react.Component);
-
-	exports.default = FilePreview;
-
-/***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -22389,7 +22342,7 @@
 	exports.default = FileDisplay;
 
 /***/ },
-/* 181 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22472,7 +22425,7 @@
 	                }
 	            });
 	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('h2', null, 'Uploaded on ', uploadDate, ' for review:'), filenames.map(function (item, i) {
-	                return _react2.default.createElement('div', { className: 'file-item' }, _react2.default.createElement('p', { key: i }, item));
+	                return _react2.default.createElement('div', { className: 'file-item', key: i }, _react2.default.createElement('p', null, item));
 	            })), _react2.default.createElement('div', { className: 'file-action' }, _react2.default.createElement('button', { className: 'btn btn-checkin' }, 'Approve'), _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reject'))));
 	        }
 	    }]);

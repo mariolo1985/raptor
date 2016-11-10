@@ -72,10 +72,10 @@ var DisplaySet = function (_Component) {
                         filenames.map(function (item, i) {
                             return _react2.default.createElement(
                                 'div',
-                                { className: 'file-item' },
+                                { className: 'file-item', key: i },
                                 _react2.default.createElement(
                                     'p',
-                                    { key: i },
+                                    null,
                                     item
                                 )
                             );

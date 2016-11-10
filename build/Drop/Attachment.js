@@ -18,8 +18,6 @@ var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
 var _ = require('../');
 
-var _ContentEditor = require('../ContentEditor');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49,8 +47,18 @@ var Attachment = function (_Component) {
     _createClass(Attachment, [{
         key: 'onDrop',
         value: function onDrop(results) {
+
+            var tempFiles = [];
+            if (this.state.files.length > 0) {
+                this.state.files.map(function (file) {
+                    tempFiles.push(file);
+                });
+            }
+            results.map(function (file) {
+                tempFiles.push(file);
+            });
             this.setState({
-                files: results
+                files: tempFiles
             });
         }
     }, {
@@ -60,8 +68,8 @@ var Attachment = function (_Component) {
             for (var i = 0; i < this.state.files.length; i++) {
                 fd.append('file_' + i + 1, this.state.files[i]);
             }
-            //putFile(fd);
-            console.log($('.editor').html());
+            var comments = $('.editor').html();
+            putFile(fd, comments);
         }
     }, {
         key: 'componentDidMount',
@@ -76,22 +84,7 @@ var Attachment = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'attachment-wrapper' },
-                this.state.files.length > 0 ? _react2.default.createElement(
-                    'div',
-                    { className: 'attachment-preview clear' },
-                    _react2.default.createElement(
-                        'h2',
-                        { className: 'high-details' },
-                        highDetails
-                    ),
-                    this.state.files.map(function (file, i) {
-                        var opt = {
-                            file: file,
-                            childKey: i
-                        };
-                        return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
-                    })
-                ) : _react2.default.createElement(
+                _react2.default.createElement(
                     'div',
                     { className: 'attachment-zone' },
                     _react2.default.createElement(
@@ -124,6 +117,22 @@ var Attachment = function (_Component) {
                         )
                     )
                 ),
+                this.state.files.length > 0 ? _react2.default.createElement(
+                    'div',
+                    { className: 'attachment-preview clear' },
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'high-details' },
+                        highDetails
+                    ),
+                    this.state.files.map(function (file, i) {
+                        var opt = {
+                            file: file,
+                            childKey: i
+                        };
+                        return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
+                    })
+                ) : null,
                 _react2.default.createElement(
                     'div',
                     { className: 'attachment-editor-wrapper' },
