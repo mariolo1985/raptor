@@ -31,7 +31,6 @@ var EditorBox = function (_Component) {
         };
 
         _this.componentDidMount = _this.componentDidMount.bind(_this);
-        _this.onEditorFocus = _this.onEditorFocus.bind(_this);
         _this.onEditorCancel = _this.onEditorCancel.bind(_this);
         _this.onEditorCheckin = _this.onEditorCheckin.bind(_this);
         _this.onEditorSaved = _this.onEditorSaved.bind(_this);
@@ -40,38 +39,20 @@ var EditorBox = function (_Component) {
     }
 
     _createClass(EditorBox, [{
-        key: 'onEditorFocus',
-        value: function onEditorFocus() {
-            console.log('focus fired');
-            var editor = this.state.editor;
-            editor.start();
-
-            this.setState({
-                editor: editor
-            });
-        }
-    }, {
         key: 'onEditorCancel',
         value: function onEditorCancel() {
             console.log('editor cancel');
-            var editor = this.state.editor;
-            editor.stop(false);
-
-            this.setState({
-                editor: editor
-            });
+            //var editor = this.state.editor;
+            console.log(editor.getContent());
         }
     }, {
         key: 'onEditorCheckin',
         value: function onEditorCheckin() {
             console.log('editor checkin');
-            this.props.onPostFiles();
+            // SAVE COMMENTS TO FILE
 
-            //var editor = this.state.editor;
-            //editor.save(true);// TRIGGER SAVED EVENT LISTENER
 
-            // do not update state yet
-            // set state from oneditorsaved
+            //this.props.onPostFiles();// SAVES TO DIRECTORY
         }
     }, {
         key: 'onEditorSaved',
@@ -79,27 +60,27 @@ var EditorBox = function (_Component) {
             console.log('on editor saved');
         }
     }, {
+        key: 'createEditor',
+        value: function createEditor() {
+            var temp = tinymce.init({
+                selector: '.editor',
+                plugins: ['link', 'image', 'media'],
+                default_link_target: '_blank',
+                inline: true,
+                fixed_toolbar_container: '.toolbar',
+                menubar: false,
+                toolbar: ['fontsizeselect bold italic underline | outdent indent | bullist numlist | link unlink | image media']
+            });
+
+            return temp;
+        }
+    }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
 
             // CREATE EDITOR / RICH TEXT BOX
-            var DEFAULT_TOOLS = [['bold', 'italic'], ['align-left', 'align-center', 'align-right'], ['unordered-list', 'ordered-list'], ['indent', 'unindent']];
-            ContentTools.DEFAULT_TOOLS = DEFAULT_TOOLS;
-
-            var editor = null;
-            editor = ContentTools.EditorApp.get();
-            editor.init('*[data-editable]', 'data-name'); // INIT EDITOR
-
-            // EDITOR SAVED EVENT
-            editor.addEventListener('saved', function (ev) {
-                var regions = ev.detail().regions;
-                console.log(regions);
-                //this.onEditorSaved(regions);// when "saved" pass to onEditorSaved
-            });
-
-            this.setState({
-                editor: editor
-            });
+            //var editor = this.createEditor()[0];
+            this.props.onInitEditor();
         }
     }, {
         key: 'render',
@@ -109,11 +90,12 @@ var EditorBox = function (_Component) {
                 'div',
                 { className: 'attachment-editor-wrapper' },
                 _react2.default.createElement(
-                    'div',
-                    { className: 'attachment-editor', tabIndex: '-1', 'data-editable': true, 'data-name': 'main-content', onFocus: this.onEditorFocus },
-                    _react2.default.createElement('input', { type: 'text', disabled: true, placeholder: 'Enter Check-In Comments here....', className: 'editor-placeholder' }),
-                    _react2.default.createElement('p', { className: 'editor-input' })
+                    'h3',
+                    null,
+                    'Enter Check-In Comments:'
                 ),
+                _react2.default.createElement('div', { className: 'toolbar' }),
+                _react2.default.createElement('div', { className: 'editor' }),
                 _react2.default.createElement(
                     'div',
                     { className: 'action-buttons' },

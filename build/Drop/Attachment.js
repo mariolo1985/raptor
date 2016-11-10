@@ -42,6 +42,7 @@ var Attachment = function (_Component) {
 
         _this.onDrop = _this.onDrop.bind(_this);
         _this.postFiles = _this.postFiles.bind(_this);
+        _this.componentDidMount = _this.componentDidMount.bind(_this);
         return _this;
     }
 
@@ -59,16 +60,38 @@ var Attachment = function (_Component) {
             for (var i = 0; i < this.state.files.length; i++) {
                 fd.append('file_' + i + 1, this.state.files[i]);
             }
-            putFile(fd);
+            //putFile(fd);
+            console.log($('.editor').html());
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            createEditor();
         }
     }, {
         key: 'render',
         value: function render() {
             var highDetails = this.state.files.length + " File(s) To Be Checked-In";
+            var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
             return _react2.default.createElement(
                 'div',
                 { className: 'attachment-wrapper' },
-                _react2.default.createElement(
+                this.state.files.length > 0 ? _react2.default.createElement(
+                    'div',
+                    { className: 'attachment-preview clear' },
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'high-details' },
+                        highDetails
+                    ),
+                    this.state.files.map(function (file, i) {
+                        var opt = {
+                            file: file,
+                            childKey: i
+                        };
+                        return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
+                    })
+                ) : _react2.default.createElement(
                     'div',
                     { className: 'attachment-zone' },
                     _react2.default.createElement(
@@ -101,23 +124,31 @@ var Attachment = function (_Component) {
                         )
                     )
                 ),
-                this.state.files.length > 0 ? _react2.default.createElement(
+                _react2.default.createElement(
                     'div',
-                    { className: 'attachment-preview clear' },
+                    { className: 'attachment-editor-wrapper' },
                     _react2.default.createElement(
-                        'h2',
-                        { className: 'high-details' },
-                        highDetails
+                        'h3',
+                        null,
+                        'Enter Check-In Comments:'
                     ),
-                    this.state.files.map(function (file, i) {
-                        var opt = {
-                            file: file,
-                            childKey: i
-                        };
-                        return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
-                    }),
-                    _react2.default.createElement(_ContentEditor.EditorBox, { onPostFiles: this.postFiles })
-                ) : null
+                    _react2.default.createElement('div', { className: 'toolbar' }),
+                    _react2.default.createElement('div', { className: 'editor' }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'action-buttons' },
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'btn btn-reset' },
+                            'Reset Form'
+                        ),
+                        _react2.default.createElement(
+                            'button',
+                            { className: checkinClass, onClick: this.postFiles },
+                            'Check In'
+                        )
+                    )
+                )
             );
         }
     }]);
