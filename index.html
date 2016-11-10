@@ -6,7 +6,8 @@
 	<meta name='viewport' content='width=device-width,initial-scale=1' />
 	<title>RAPTOR</title>
 
-	<link rel='stylesheet' href='frameworks/ContentTools/content-tools.min.css' />
+	<link rel='stylesheet' href='frameworks/tinymce/skins/lightgray/skin.min.css' />
+	<link rel='stylesheet' href='frameworks/tinymce/skins/lightgray/content.inline.min.css' />
 	<link rel='stylesheet' href='css/font-awesome.css' />
 	<link rel='stylesheet' href='css/master.min.css' />
 
@@ -17,14 +18,19 @@
 <body>
 	<!-- HEADER -->
 	<div id='main-nav'></div>
+	<section class='content-container'>
+		<!-- attachment-->
+		<div id='attachment-here'></div>
+	</section>
 
-	<!-- attachment-->
-	<div id='attachment-here'></div>
 
+	
 	<script src='js/jquery.js'></script>
-	<script src='frameworks/ContentTools/content-tools.min.js'></script>
-	<script src='build/webpackd/index_bundle.js'></script>
+	<script src='frameworks/tinymce/tinymce.min.js'></script>
 	<script src='js/base.js'></script>
+	<script src='build/webpackd/index_bundle.js'></script>
+
+
 
 </body>
 
