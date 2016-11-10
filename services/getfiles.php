@@ -9,7 +9,7 @@ if (isset($_GET['Filter'])){
             include "dbhelper.php";
             $_dbhelper = new DbHelper();
             $conn = $_dbhelper->getDefaultConnected();
-            $result = $_dbhelper->getPendingElements($conn);
+            $result = $_dbhelper->getPendingElements($conn);            
             echo json_encode($result);
             break;
 

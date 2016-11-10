@@ -7,12 +7,15 @@ class DbHelper{
 
     }
     function getDefaultConnected(){
+        include ('../../creds/getcreds.php');
+        $_credHelper = new CredHelper();
+        $cred = $_credHelper->getDbCred();
      
-        $_mysqli = @new mysqli("localhost:8889","root","root","raptor");
+        $_mysqli = @new mysqli("localhost:8889",$cred['un'],$cred['pw'],"raptor");
 
-        if ($mysqli->connect_error){
-            echo "Connection Error #: " . $mysqli->connect_errno . "\n";
-            echo "Connection Error: " . $mysqli->connect_error . "\n";
+        if ($_mysqli->connect_error){
+            echo "Connection Error #: " . $_mysqli->connect_errno . "\n";
+            echo "Connection Error: " . $_mysqli->connect_error . "\n";
         }
 
         return $_mysqli;
