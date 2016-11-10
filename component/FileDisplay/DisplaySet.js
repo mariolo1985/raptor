@@ -38,8 +38,8 @@ class DisplaySet extends Component {
                         {
                             filenames.map((item, i) => {
                                 return (
-                                    <div className='file-item'>
-                                        <p key={i}>{item}</p>
+                                    <div className='file-item' key={i}>
+                                        <p>{item}</p>
                                     </div>
                                 );
                             })
