@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { MainNav, Attachment } from '../build';
 
 
+
 function putFile(formdata) {
     $.ajax({
         url: './services/putfile.php',
