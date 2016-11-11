@@ -41,7 +41,7 @@ var MainNav = function (_Component) {
                         { className: 'logo' },
                         _react2.default.createElement(
                             'a',
-                            { href: '/', className: 'header-logo-link' },
+                            { href: '/raptor', className: 'header-logo-link' },
                             _react2.default.createElement('img', { src: './images/raptor.png', className: 'header-img', alt: 'raptor.com' })
                         ),
                         _react2.default.createElement(

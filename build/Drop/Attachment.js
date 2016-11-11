@@ -40,7 +40,6 @@ var Attachment = function (_Component) {
 
         _this.onDrop = _this.onDrop.bind(_this);
         _this.postFiles = _this.postFiles.bind(_this);
-        _this.componentDidMount = _this.componentDidMount.bind(_this);
         return _this;
     }
 
@@ -72,14 +71,15 @@ var Attachment = function (_Component) {
             putFile(fd, comments);
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
             createEditor();
         }
     }, {
         key: 'render',
         value: function render() {
             var highDetails = this.state.files.length + " File(s) To Be Checked-In";
+            var resetClass = this.state.files.length > 0 ? "btn btn-reset" : "btn btn-reset disabled";
             var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
             return _react2.default.createElement(
                 'div',
@@ -133,7 +133,7 @@ var Attachment = function (_Component) {
                         return _react2.default.createElement(_.FilePreview, _extends({}, opt, { key: i }));
                     })
                 ) : null,
-                _react2.default.createElement(
+                this.state.files.length > 0 ? _react2.default.createElement(
                     'div',
                     { className: 'attachment-editor-wrapper' },
                     _react2.default.createElement(
@@ -148,7 +148,7 @@ var Attachment = function (_Component) {
                         { className: 'action-buttons' },
                         _react2.default.createElement(
                             'button',
-                            { className: 'btn btn-reset' },
+                            { className: resetClass },
                             'Reset Form'
                         ),
                         _react2.default.createElement(
@@ -157,7 +157,7 @@ var Attachment = function (_Component) {
                             'Check In'
                         )
                     )
-                )
+                ) : null
             );
         }
     }]);

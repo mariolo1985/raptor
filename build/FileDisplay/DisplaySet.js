@@ -28,13 +28,23 @@ var DisplaySet = function (_Component) {
     }
 
     _createClass(DisplaySet, [{
+        key: 'createMarkup',
+        value: function createMarkup(html) {
+            return { __html: html };
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var jSet = JSON.parse(this.props.set);
-            var uploadDate, setId;
+            var _this2 = this;
+
+            var jSet = JSON.parse(this.props.set); // JSON THE SET RESULTS
+            var uploadDate,
+                setId,
+                comments = "";
             var filenames = [];
             jSet.map(function (item, i) {
                 if (item['Upload Date']) {
+                    // PARSE UPLOAD DATE IN READABLE FORMAT
                     uploadDate = item['Upload Date'];
 
                     uploadDate = new Date(uploadDate);
@@ -47,12 +57,24 @@ var DisplaySet = function (_Component) {
                     var strTime = hours + ':' + minutes + ' ' + ampm;
 
                     uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+                } else if (item['Comments']) {
+                    // GET COMMENTS WHEN FILES WERE UPLOADED
+                    var tempComments;
+                    tempComments = item['Comments'];
+                    tempComments = $.parseHTML(tempComments);
+
+                    $.each(tempComments, function (i, el) {
+                        comments += el.outerHTML;
+                    });
+                    comments = _this2.createMarkup(comments);
                 } else if (item['SetId']) {
                     setId = item['SetId'];
                 } else if (item['filename']) {
                     filenames.push(item['filename']);
                 }
             });
+
+            var setTitle = "Uploaded on " + uploadDate + " for review:";
             return _react2.default.createElement(
                 'div',
                 { className: 'file-set-container', 'data-setid': setId },
@@ -65,21 +87,30 @@ var DisplaySet = function (_Component) {
                         _react2.default.createElement(
                             'h2',
                             null,
-                            'Uploaded on ',
-                            uploadDate,
-                            ' for review:'
+                            setTitle
                         ),
                         filenames.map(function (item, i) {
+                            var link = './pending_elements/' + setId + '/' + item;
                             return _react2.default.createElement(
                                 'div',
                                 { className: 'file-item', key: i },
                                 _react2.default.createElement(
-                                    'p',
-                                    null,
+                                    'a',
+                                    { className: 'file-link', href: link },
                                     item
                                 )
                             );
-                        })
+                        }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'file-comments-container' },
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'file-comments-heading' },
+                                'Check-In Comments:'
+                            ),
+                            _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })
+                        )
                     ),
                     _react2.default.createElement(
                         'div',
