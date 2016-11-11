@@ -40,6 +40,7 @@ var Attachment = function (_Component) {
 
         _this.onDrop = _this.onDrop.bind(_this);
         _this.postFiles = _this.postFiles.bind(_this);
+        _this.resetAttachment = _this.resetAttachment.bind(_this);
         return _this;
     }
 
@@ -61,6 +62,13 @@ var Attachment = function (_Component) {
             });
         }
     }, {
+        key: 'resetAttachment',
+        value: function resetAttachment() {
+            this.setState({
+                files: []
+            });
+        }
+    }, {
         key: 'postFiles',
         value: function postFiles() {
             var fd = new FormData();
@@ -79,8 +87,6 @@ var Attachment = function (_Component) {
         key: 'render',
         value: function render() {
             var highDetails = this.state.files.length + " File(s) To Be Checked-In";
-            var resetClass = this.state.files.length > 0 ? "btn btn-reset" : "btn btn-reset disabled";
-            var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
             return _react2.default.createElement(
                 'div',
                 { className: 'attachment-wrapper' },
@@ -90,7 +96,7 @@ var Attachment = function (_Component) {
                     _react2.default.createElement(
                         'h1',
                         { className: 'center-helper' },
-                        'Attach New Elements For Preview'
+                        'Attach New Elements For Review'
                     ),
                     _react2.default.createElement(
                         _reactDropzone2.default,
@@ -148,12 +154,12 @@ var Attachment = function (_Component) {
                         { className: 'action-buttons' },
                         _react2.default.createElement(
                             'button',
-                            { className: resetClass },
+                            { className: 'btn btn-reset', onClick: this.resetAttachment },
                             'Reset Form'
                         ),
                         _react2.default.createElement(
                             'button',
-                            { className: checkinClass, onClick: this.postFiles },
+                            { className: 'btn btn-checkin', onClick: this.postFiles },
                             'Check In'
                         )
                     )

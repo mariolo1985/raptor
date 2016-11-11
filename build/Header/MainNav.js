@@ -28,6 +28,16 @@ var MainNav = function (_Component) {
     }
 
     _createClass(MainNav, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            var path = window.location.pathname;
+            var index = path.lastIndexOf("/") + 1;'';
+            var pageUrl = path.substring(index);
+
+            $('.menu-item .menu-link[href*="' + pageUrl + '"]').parents('.menu-item').addClass('selected');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -38,16 +48,20 @@ var MainNav = function (_Component) {
                     { className: 'logo-header header-content' },
                     _react2.default.createElement(
                         'div',
+                        { className: 'title-wrapper' },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'header-title' },
+                            'RAPTOR'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
                         { className: 'logo' },
                         _react2.default.createElement(
                             'a',
                             { href: '/raptor', className: 'header-logo-link' },
                             _react2.default.createElement('img', { src: './images/raptor.png', className: 'header-img', alt: 'raptor.com' })
-                        ),
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            'RAPTOR'
                         )
                     )
                 ),
@@ -63,7 +77,7 @@ var MainNav = function (_Component) {
                             _react2.default.createElement(
                                 'a',
                                 { href: './index.html', className: 'menu-link' },
-                                'Add Elements'
+                                _react2.default.createElement('img', { className: 'menu-icon', src: './images/addelementicon.png' })
                             )
                         ),
                         _react2.default.createElement(
@@ -72,7 +86,7 @@ var MainNav = function (_Component) {
                             _react2.default.createElement(
                                 'a',
                                 { href: './review.html', className: 'menu-link' },
-                                'Review'
+                                _react2.default.createElement('img', { className: 'menu-icon', src: './images/reviewicon.png' })
                             )
                         ),
                         _react2.default.createElement(
@@ -81,18 +95,9 @@ var MainNav = function (_Component) {
                             _react2.default.createElement(
                                 'a',
                                 { href: './history.html', className: 'menu-link' },
-                                'History'
+                                _react2.default.createElement('img', { className: 'menu-icon', src: './images/historyicon.png' })
                             )
                         )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'search-wrapper header-content' },
-                    _react2.default.createElement(
-                        'button',
-                        { className: 'btn-search' },
-                        _react2.default.createElement('i', { className: 'fa fa-search' })
                     )
                 )
             );

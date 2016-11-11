@@ -44,11 +44,31 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(180);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _build = __webpack_require__(173);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	window.onload = function () {
+
+	    (0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
+	};
+
+/***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22325,25 +22345,6 @@
 	}(_react.Component);
 
 	exports.default = DisplaySet;
-
-/***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(35);
-
-	var _build = __webpack_require__(173);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
-	(0, _reactDom.render)(_react2.default.createElement(_build.Attachment, null), document.getElementById('attachment-here'));
 
 /***/ }
 /******/ ]);

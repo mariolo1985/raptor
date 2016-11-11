@@ -74,7 +74,7 @@ var DisplaySet = function (_Component) {
                 }
             });
 
-            var setTitle = "Uploaded on " + uploadDate + " for review:";
+            var setTitle = "Uploaded: " + uploadDate;
             return _react2.default.createElement(
                 'div',
                 { className: 'file-set-container', 'data-setid': setId },
@@ -85,8 +85,8 @@ var DisplaySet = function (_Component) {
                         'div',
                         { className: 'file-set' },
                         _react2.default.createElement(
-                            'h2',
-                            null,
+                            'p',
+                            { className: 'file-set-title' },
                             setTitle
                         ),
                         filenames.map(function (item, i) {
@@ -100,30 +100,30 @@ var DisplaySet = function (_Component) {
                                     item
                                 )
                             );
-                        }),
+                        })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'file-comments-container' },
                         _react2.default.createElement(
-                            'div',
-                            { className: 'file-comments-container' },
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'file-comments-heading' },
-                                'Check-In Comments:'
-                            ),
-                            _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })
-                        )
+                            'span',
+                            { className: 'file-comments-heading' },
+                            'Comments:'
+                        ),
+                        _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: 'file-action' },
                         _react2.default.createElement(
                             'button',
-                            { className: 'btn btn-checkin' },
-                            'Approve'
+                            { className: 'btn btn-reset' },
+                            'Reject'
                         ),
                         _react2.default.createElement(
                             'button',
-                            { className: 'btn btn-reset' },
-                            'Reject'
+                            { className: 'btn btn-checkin' },
+                            'Approve'
                         )
                     )
                 )

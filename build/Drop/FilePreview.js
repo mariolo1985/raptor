@@ -54,14 +54,10 @@ var FilePreview = function (_Component) {
                         "File ",
                         fileCounter
                     ),
-                    _react2.default.createElement(
-                        "button",
-                        { className: "btn-select-file" },
-                        _react2.default.createElement("i", { className: "fa fa-file" })
-                    ),
+                    _react2.default.createElement("i", { className: "file-icon fa fa-file-image-o" }),
                     _react2.default.createElement(
                         "span",
-                        null,
+                        { className: "attachment-filename" },
                         file.name
                     )
                 )
