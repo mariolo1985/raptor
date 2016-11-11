@@ -48,7 +48,7 @@ class Attachment extends Component {
 
             <div className='attachment-wrapper'>
                 <div className='attachment-zone'>
-                    <h1 className='center-helper'>Attach New Elements For Preview</h1>
+                    <h1 className='center-helper'>Attach New Elements For Review</h1>
                     <Dropzone className='attachments' activeClassName="dragon" onDrop={this.onDrop} disableClick multiple>
                         <div className='default-msg'>
                             <p className='attachment-instructions'>Drop Files Here</p>
