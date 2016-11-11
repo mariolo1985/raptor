@@ -63,6 +63,11 @@ body {
   border: none;
   cursor: pointer;
 }
+.btn.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: .6;
+}
 .btn:hover {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.8);
 }
@@ -214,4 +219,13 @@ body {
 }
 .file-row .file-action {
   width: 25%;
+}
+.file-comments-container {
+  background-color: #ECECEC;
+  padding: 10px;
+  border-radius: 10px;
+}
+.file-comments-container .file-comments-heading {
+  font-size: 20px;
+  font-weight: bold;
 }
