@@ -8,8 +8,8 @@ module.exports = {
         index: [
             './js/index.js'
         ],
-        reviewitem: [
-            './js/reviewitem.js'
+        history: [
+            './js/history.js'
         ]
     },
     output: {
