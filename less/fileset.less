@@ -1,30 +1,46 @@
+@import "colors.less";
+
+
 .file-set-container{
-    border: 1px solid #999999;
+    border: 1px solid @colorBorderDefault;
     margin: 50px 10px;
     padding: 10px;
     border-radius: 10px;
 }
 
-.file-row{
-    & > div{
-        float:left;
-    }
-
-    & .file-set{
-        width: 75%;
-    }
-    & .file-action{
-        width: 25%;
-    }
-}
-
-.file-comments-container{
-    background-color: #ECECEC;
-    padding: 10px;
+.file-comments-container{    
     border-radius: 10px;
+    width: 100%;
+    margin-top:25px;
 
     & .file-comments-heading{
         font-size: 20px;
         font-weight: bold;
     }
+
+    & .file-comments{
+        background-color: @colorEditorBg;
+        padding: 10px;
+    }
+}
+
+.file-set {
+    & .file-set-title{
+        font-size: 18px;
+        text-decoration: underline;
+    }
+
+    & .file-item{
+        margin: 5px 0;
+        
+        & .file-link{
+            text-decoration: none;
+            color:@colorLink;
+        }
+    }
+
+}
+
+.file-action{
+    text-align:right;
 }

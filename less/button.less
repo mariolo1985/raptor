@@ -1,8 +1,10 @@
+@import "colors.less";
+
 .btn{
         height: 33px;
         width: 150px;
         margin: 10px;
-        color: #ffffff;
+        color: @colorWhite;
         font-size: 16px;
         box-shadow: 0 0 1px 0 rgba(0,0,0,0.8);
         border:none;
@@ -18,27 +20,19 @@
             box-shadow: 0 0 3px 1px rgba(0,0,0,0.8);
         }
         
-
-        &.btn-cancel{
-            background-color: #000000;
-
-            &:hover{
-                background-color: #5A5A5A;
-            }
-        }
         &.btn-checkin{
-            background-color: #2DCA6F;
+            background-color: @colorBtnSuccessBg;
 
             &:hover{
-                background-color: #006C2D;
+                background-color: @colorBtnSuccessHover;
             }
         }
         
         &.btn-reset{
-            background-color: #DF0E1D;
+            background-color: @colorBtnResetBg;
 
             &:hover{
-                background-color: #AC1B25;
+                background-color: @colorBtnResetHover;
             }
         }
         

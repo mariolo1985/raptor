@@ -1,48 +1,76 @@
+@import "colors.less";
+@import "responsiveconfig.less";
+
+
 .header-wrapper{
-    background-color:#999999;
-}
-.header-content{
-    float:left;
+    background-color:@colorMenuBg;
 }
 
 .logo-header{
-    width: 10%;
-    text-align: right;
-
-    & .logo{
-        padding: 10px;
+    float:left;
+    width: 75%;
    
+   & .logo{
+       display:inline;
         & .header-img{
-            width: 100%;
+            width: 75px;
         }
+   }
 
+    & .title-wrapper{
+        display:inline;
+        & .header-title{
+            font-size: 60px;
+            font-style:italic;
+            letter-spacing: 10px;
+        }
     }
-
 }
 
+
 .menu-wrapper{
-    width: 80%;
+    float:right;
+    width: 25%;
 
     & .menu {
         list-style:none;
+        margin:0;
+        padding:0;
 
         & .menu-item{
             float:left;
-            width: 33%;
+            width: 33.333%;
+            text-align:center;
+
+            &.selected{
+                background-color: @colorWhite;
+                &:hover{
+                    background-color: @colorWhite;                    
+                }
+
+                & .menu-link{
+                    cursor:not-allowed;
+                }
+            }
+            
+            &:hover{
+                background-color:@colorMenuBgHover;
+            }
 
             & .menu-link{
-                color: #ffffff;
-                text-decoration: none;
+                & .menu-icon{
+                    padding: 10px;
+                }
             }
         }        
     }
 }
 
-.search-wrapper{
-    width: 10%;
-
-    & .btn-search{
-        float:right;
+@media(max-width: @mdScreen){
+    .logo-header{
+        width: 60%;
+    }
+    .menu-wrapper{
+        width: 40%;
     }
 }
-
