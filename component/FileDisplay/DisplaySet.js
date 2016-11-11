@@ -46,12 +46,12 @@ class DisplaySet extends Component {
             }
         });
 
-        var setTitle = "Uploaded on " + uploadDate + " for review:";
+        var setTitle = "Uploaded: " + uploadDate;
         return (
             <div className='file-set-container' data-setid={setId}>
                 <div className='file-row clear'>
                     <div className='file-set'>
-                        <h2>{setTitle}</h2>
+                        <p className='file-set-title'>{setTitle}</p>
                         {
                             filenames.map((item, i) => {
                                 var link = './pending_elements/' + setId + '/' + item;
@@ -62,15 +62,15 @@ class DisplaySet extends Component {
                                 );
                             })
                         }
-                        <div className='file-comments-container'>
-                            <span className='file-comments-heading'>Check-In Comments:</span>
-                            <div className='file-comments' dangerouslySetInnerHTML={comments}>
-                            </div>
+                    </div>
+                    <div className='file-comments-container'>
+                        <span className='file-comments-heading'>Comments:</span>
+                        <div className='file-comments' dangerouslySetInnerHTML={comments}>
                         </div>
                     </div>
                     <div className='file-action'>
-                        <button className='btn btn-checkin'>Approve</button>
                         <button className='btn btn-reset'>Reject</button>
+                        <button className='btn btn-checkin'>Approve</button>                        
                     </div>
                 </div>
             </div>
