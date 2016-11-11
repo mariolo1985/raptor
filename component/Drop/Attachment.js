@@ -13,6 +13,7 @@ class Attachment extends Component {
 
         this.onDrop = this.onDrop.bind(this);
         this.postFiles = this.postFiles.bind(this);
+        this.resetAttachment = this.resetAttachment.bind(this);
     }
     onDrop(results) {
 
@@ -29,6 +30,11 @@ class Attachment extends Component {
             files: tempFiles
         })
     }
+    resetAttachment(){
+        this.setState({
+            files: []
+        });
+    }    
     postFiles() {
         var fd = new FormData();
         for (var i = 0; i < this.state.files.length; i++) {
@@ -42,8 +48,6 @@ class Attachment extends Component {
     }
     render() {
         var highDetails = this.state.files.length + " File(s) To Be Checked-In";
-        var resetClass = this.state.files.length > 0 ? "btn btn-reset" : "btn btn-reset disabled";
-        var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
         return (
 
             <div className='attachment-wrapper'>
@@ -84,8 +88,8 @@ class Attachment extends Component {
                         <div className='toolbar'></div>
                         <div className='editor'></div>
                         <div className='action-buttons'>
-                            <button className={resetClass}>Reset Form</button>
-                            <button className={checkinClass} onClick={this.postFiles}>Check In</button>
+                            <button className='btn btn-reset' onClick={this.resetAttachment}>Reset Form</button>
+                            <button className='btn btn-checkin' onClick={this.postFiles}>Check In</button>
                         </div>
                     </div>
                     : null}

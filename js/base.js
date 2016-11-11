@@ -12,11 +12,6 @@ function getParameterByName(name, url) {
 
 var editor;
 function createEditor() {
-    if (editor != null) {
-        console.log('Editor already created');
-        return;
-    }
-
     promiseCreateEditor().then(function (result) {
         editor = result[0];
         editor.focus();
