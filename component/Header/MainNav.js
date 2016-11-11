@@ -10,7 +10,7 @@ class MainNav extends Component {
             <section className='header-wrapper clear'>
                 <div className='logo-header header-content'>
                     <div className='logo'>
-                        <a href='/' className='header-logo-link'>
+                        <a href='/raptor' className='header-logo-link'>
                             <img src='./images/raptor.png' className='header-img' alt='raptor.com' />
                         </a>
                         <span>RAPTOR</span>
