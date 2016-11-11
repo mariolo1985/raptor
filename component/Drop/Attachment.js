@@ -13,17 +13,16 @@ class Attachment extends Component {
 
         this.onDrop = this.onDrop.bind(this);
         this.postFiles = this.postFiles.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
     }
     onDrop(results) {
 
         var tempFiles = [];
-        if (this.state.files.length>0){
-            this.state.files.map((file)=>{
+        if (this.state.files.length > 0) {
+            this.state.files.map((file) => {
                 tempFiles.push(file);
             })
         }
-        results.map((file)=>{
+        results.map((file) => {
             tempFiles.push(file);
         });
         this.setState({
@@ -38,11 +37,12 @@ class Attachment extends Component {
         var comments = $('.editor').html();
         putFile(fd, comments);
     }
-    componentDidMount() {
+    componentDidUpdate() {
         createEditor();
     }
     render() {
         var highDetails = this.state.files.length + " File(s) To Be Checked-In";
+        var resetClass = this.state.files.length > 0 ? "btn btn-reset" : "btn btn-reset disabled";
         var checkinClass = this.state.files.length > 0 ? "btn btn-checkin" : "btn btn-checkin disabled";
         return (
 
@@ -78,15 +78,17 @@ class Attachment extends Component {
                     null
                 }
 
-                <div className='attachment-editor-wrapper'>
-                    <h3>Enter Check-In Comments:</h3>
-                    <div className='toolbar'></div>
-                    <div className='editor'></div>
-                    <div className='action-buttons'>
-                        <button className='btn btn-reset'>Reset Form</button>
-                        <button className={checkinClass} onClick={this.postFiles}>Check In</button>
+                {this.state.files.length > 0 ?
+                    <div className='attachment-editor-wrapper'>
+                        <h3>Enter Check-In Comments:</h3>
+                        <div className='toolbar'></div>
+                        <div className='editor'></div>
+                        <div className='action-buttons'>
+                            <button className={resetClass}>Reset Form</button>
+                            <button className={checkinClass} onClick={this.postFiles}>Check In</button>
+                        </div>
                     </div>
-                </div>
+                    : null}
             </div>
         )
     }

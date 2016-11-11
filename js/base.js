@@ -10,8 +10,21 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-
+var editor;
 function createEditor() {
+    if (editor != null) {
+        console.log('Editor already created');
+        return;
+    }
+
+    promiseCreateEditor().then(function (result) {
+        editor = result[0];
+        editor.focus();
+    });
+}
+
+function promiseCreateEditor() {
+
     var temp = tinymce.init({
         selector: '.editor',
         plugins: ['link', 'image', 'media'],
@@ -63,7 +76,7 @@ function addFileMeta(setid) {
         }
     })
         .done(function (result, b, c) {
-            
+
         })
         .fail(function (a, b, c) {
             console.log('Failed POST');
