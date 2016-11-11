@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {DisplaySet} from '../';
+import { DisplaySet } from '../';
 
 
 class FileDisplay extends Component {
@@ -10,10 +10,11 @@ class FileDisplay extends Component {
 
         return (
             <div className='file-display-wrapper'>
+                <h1>({this.props.sets.length}) Pending Sets In Review</h1>
                 {
                     this.props.sets.map((set, i) => {
                         return (
-                            <DisplaySet set={set} key={i}/>
+                            <DisplaySet set={set} key={i} />
                         );
                     })
                 }
