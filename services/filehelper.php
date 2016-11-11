@@ -49,7 +49,7 @@ class FileHelper
     }
 
     // GET PENDING FILE NAMES BY SET
-    function getPendingFilesBySetId($setId){
+    function getMetadataBySetId($setId){
         $path = '../pending_elements/' . $setId;
             $filePath = $path . '/metadata.json';
         if (file_exists($filePath)){
@@ -60,13 +60,24 @@ class FileHelper
         }
     }
 
+    function getCommentsBySetId($setId){
+        $path = '../pending_elements/' . $setId;
+        $filePath = $path . '/comments.txt';
+        if (file_exists($filePath)){
+            $fileContent = file_get_contents($filePath);
+            return $fileContent;
+        }else{
+            return null;
+        }
+    }
     function getPendingFilesMetadata($sets){
         $PendingSets = array();
 
         foreach ($sets as $key => $set){            
             $setId = $set['setId'];
             $uploadDate = $set['UploadDate'];
-                $tmp = json_decode($this->getPendingFilesBySetId($setId),true);
+            $tmp = json_decode($this->getMetadataBySetId($setId),true);
+            $comments = $this->getCommentsBySetId($setId);
             
             // INCLUDE SET ID 
             $tmp[] = array(
@@ -76,7 +87,11 @@ class FileHelper
             $tmp[] = array(
                 'Upload Date'=>$uploadDate
             );
-                $PendingSets[]=json_encode($tmp);                     
+            // INCLUDE COMMENTS 
+            $tmp[] = array(
+                'Comments'=>$comments
+            );
+            $PendingSets[]=json_encode($tmp);                     
         }
 
         return $PendingSets;
