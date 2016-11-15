@@ -22198,9 +22198,9 @@
 	        key: 'render',
 	        value: function render() {
 
-	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, _react2.default.createElement('h1', null, '(', this.props.sets.length, ') Pending Sets In Review'), this.props.sets.map(function (set, i) {
+	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, _react2.default.createElement('h1', null, '(', this.props.sets.length, ') Pending Sets In Review'), this.props.sets.length > 0 ? this.props.sets.map(function (set, i) {
 	                return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
-	            }));
+	            }) : null);
 	        }
 	    }]);
 

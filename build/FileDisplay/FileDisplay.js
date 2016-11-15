@@ -43,9 +43,9 @@ var FileDisplay = function (_Component) {
                     this.props.sets.length,
                     ') Pending Sets In Review'
                 ),
-                this.props.sets.map(function (set, i) {
+                this.props.sets.length > 0 ? this.props.sets.map(function (set, i) {
                     return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
-                })
+                }) : null
             );
         }
     }]);
