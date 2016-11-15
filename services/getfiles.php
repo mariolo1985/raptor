@@ -19,7 +19,7 @@ if (isset($_GET['Filter'])){
             $sets = $_GET['Sets'];
             $result = $_filehelper->getPendingFilesMetadata($sets);
             echo json_encode($result);
-            
+
             break;
 
         case "BY_SETID":
