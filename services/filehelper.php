@@ -61,6 +61,7 @@ class FileHelper
     }
 
     function getCommentsBySetId($setId){
+
         $path = '../pending_elements/' . $setId;
         $filePath = $path . '/comments.txt';
         if (file_exists($filePath)){
@@ -73,12 +74,12 @@ class FileHelper
     function getPendingFilesMetadata($sets){
         $PendingSets = array();
 
-        foreach ($sets as $key => $set){            
-            $setId = $set['setId'];
+        foreach ($sets as $key => $set){                    
+            $setId = $set['SetId'];
             $uploadDate = $set['UploadDate'];
             $tmp = json_decode($this->getMetadataBySetId($setId),true);
             $comments = $this->getCommentsBySetId($setId);
-            
+
             // INCLUDE SET ID 
             $tmp[] = array(
                 'SetId'=>$setId
