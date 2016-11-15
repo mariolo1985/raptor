@@ -16,9 +16,32 @@ body {
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-top: 100px;
+}
+#main-nav {
+  position: fixed;
+  width: 100%;
 }
 .header-wrapper {
   background-color: #FFEA00;
+}
+.header-wrapper.scrolled .logo-header .title-wrapper .header-title {
+  font-size: 24px;
+}
+.header-wrapper.scrolled .logo-header .logo .header-img {
+  width: 45px;
+}
+.header-wrapper.scrolled .menu-wrapper .menu .menu-item .menu-link .menu-icon {
+  width: 35px;
+}
+.header-wrapper .logo-header .title-wrapper .header-title {
+  transition: font-size 1s;
+}
+.header-wrapper .logo-header .logo .header-img {
+  transition: width 1s;
+}
+.header-wrapper .menu-wrapper .menu .menu-item .menu-link .menu-icon {
+  transition: width 1s;
 }
 .logo-header {
   float: left;
@@ -66,6 +89,7 @@ body {
 }
 .menu-wrapper .menu .menu-item .menu-link .menu-icon {
   padding: 10px;
+  width: 64px;
 }
 @media (max-width: 900px) {
   .logo-header {
