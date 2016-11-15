@@ -2,16 +2,15 @@ import React from 'react';
 import { render } from 'react-dom';
 import {MainNav,FileDisplay} from '../build';
 
-window.onload = function () {
-    render(
-        (
-            <MainNav />
-        ),
-        document.getElementById('main-nav')
-    );
-    getPendingElements();
+render(
+    (
+        <MainNav />
+    ),
+    document.getElementById('main-nav')
+);
+getPendingElements();
 
-}
+
 
 
 // GETS PENDING ELEMENTS
