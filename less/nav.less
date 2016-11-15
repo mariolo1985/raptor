@@ -1,9 +1,43 @@
 @import "colors.less";
 @import "responsiveconfig.less";
 
-
+#main-nav{
+    position:fixed;
+    width: 100%;
+}
 .header-wrapper{
     background-color:@colorMenuBg;
+}
+
+.header-wrapper{
+        &.scrolled{
+            & .logo-header .title-wrapper .header-title{
+                font-size: 24px;
+            }
+
+            & .logo-header .logo .header-img{
+                width: 45px;
+            }
+
+
+            & .menu-wrapper .menu .menu-item .menu-link .menu-icon{
+                width:35px;
+            }
+        }
+
+        & .logo-header .title-wrapper .header-title{
+            transition: font-size 1s;
+        }
+
+        & .logo-header .logo .header-img{
+            transition: width 1s;
+        }
+
+
+        & .menu-wrapper .menu .menu-item .menu-link .menu-icon{
+            transition: width 1s;            
+        }
+
 }
 
 .logo-header{
@@ -60,6 +94,7 @@
             & .menu-link{
                 & .menu-icon{
                     padding: 10px;
+                    width: 64px;
                 }
             }
         }        

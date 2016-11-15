@@ -1,3 +1,10 @@
+window.onload = function(){
+    window.addEventListener('scroll',scrollThrottle);
+}
+
+
+
+// QUERY STRING HELPER
 function getParameterByName(name, url) {
     if (!url) {
         url = window.location.href;
@@ -10,6 +17,7 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+// RICH TEXT COMMENT BOX HELPER
 var editor;
 function createEditor() {
     promiseCreateEditor().then(function (result) {
@@ -49,7 +57,7 @@ function putFile(formdata, comments) {
     })
         .done(function (result, b, c) {
             // ONCE UPLOADED THAN ADD METADTA TO DB
-            addFileMeta(result);
+            addFileMeta(result, 'PENDING');
             putComments(result, comments);
         })
         .fail(function (a, b, c) {
@@ -61,17 +69,18 @@ function putFile(formdata, comments) {
 
 }
 
-function addFileMeta(setid) {
+function addFileMeta(setid,status) {
     $.ajax({
         url: './services/addfilemeta.php',
         type: 'POST',
         data:
         {
-            SetId: setid
+            SetId: setid,
+            Status: status
         }
     })
         .done(function (result, b, c) {
-
+            console.log(result);
         })
         .fail(function (a, b, c) {
             console.log('Failed POST');
@@ -98,4 +107,29 @@ function putComments(setid, comments) {
         console.log(b);
         console.log(c);
     })
+}
+
+// SCROLL EVENTS
+var scrollTimeout;
+function scrollThrottle(){
+    if (!scrollTimeout){
+        scrollTimeout = setTimeout(function(){
+            scrollTimeout = null;
+            scrolled();
+        },50);
+    }
+}
+
+var prevYScrollPos = 0;
+function scrolled(){
+    var yScrollPos = this.pageYOffset;
+    var headerWrapper = $('.header-wrapper');
+    if ((yScrollPos > 0) && (!headerWrapper.hasClass('scrolled'))){
+        headerWrapper.addClass('scrolled');
+    }else if ((yScrollPos==0) && (headerWrapper.hasClass('scrolled'))){
+        headerWrapper.removeClass('scrolled');
+    }
+    
+    // keep track of scoll pos to know if scrolling up or down
+    prevYScrollPos = yScrollPos;
 }
