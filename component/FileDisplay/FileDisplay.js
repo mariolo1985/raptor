@@ -12,11 +12,13 @@ class FileDisplay extends Component {
             <div className='file-display-wrapper'>
                 <h1>({this.props.sets.length}) Pending Sets In Review</h1>
                 {
-                    this.props.sets.map((set, i) => {
+                    this.props.sets.length > 0 ?
+                     this.props.sets.map((set, i) => {
                         return (
                             <DisplaySet set={set} key={i} />
                         );
                     })
+                     : null
                 }
             </div>
         )
