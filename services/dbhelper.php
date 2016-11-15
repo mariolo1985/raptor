@@ -22,15 +22,30 @@ class DbHelper{
     }
 
     // INSERT PENDING ELEMENTS
-    function insertToPendingElements($_mysqli,$setId,$date){             
-        
-        $_mysqli->query(sprintf('SET @setId = "%"',$setId));
-        $_mysqli->query(sprintf('SET @uploadDate = "%"',$date));
-        if (!$result = $_mysqli->query('CALL pInsertNewElement("' . $setId . '","'. $date .'");')){
-            echo false;            
+    function insertToPendingElements($_mysqli,$setId,$date,$status){          
+
+        try{
+            // DECLARE CLASS SESSION VARIABLES 
+            $stmt = $_mysqli->prepare('SET @_setid := ?');//set id 
+            $stmt->bind_param('s', $setId);
+            $stmt->execute();
+
+            $stmt = $_mysqli->prepare('SET @_date := ?');// upload date 
+            $stmt->bind_param('s',$date);
+            $stmt->execute();
+
+            $stmt = $_mysqli->prepare('SET @_wfstatus := ?');// WF STATUS
+            $stmt->bind_param('s',$status);
+            $stmt->execute();
+
+            $result = $_mysqli->query('CALL pInsertNewElement(@_setid,@_date,@_wfstatus)');
+            echo $result ? "TRUE" : "FALSE";
+            $result->free();
+
+        }catch(Exception $e){
+            echo $e->getMessage();
         }
-        echo true; 
-        $results->free();// free result
+
         $_mysqli->close();// closes connection
                       
     }
