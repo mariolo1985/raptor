@@ -8,22 +8,24 @@
     border-radius: 10px;
 }
 
-.file-comments-container{    
-    border-radius: 10px;
-    width: 100%;
-    margin-top:25px;
+// FILE STATUS
+.file-status-row{
+    text-align: center;
+    padding: 10px;
 
-    & .file-comments-heading{
-        font-size: 20px;
-        font-weight: bold;
+    &.pending{
+        background-color: #00C0FF;
+    }
+    &.approved{
+        background-color: #2DCA6F;
     }
 
-    & .file-comments{
-        background-color: @colorEditorBg;
-        padding: 10px;
+    & .file-status{
+        font-size: 24px;
     }
 }
 
+// FILE LINKS
 .file-set {
     & .file-set-title{
         font-size: 18px;
@@ -41,6 +43,24 @@
 
 }
 
+// FILE COMMENTS
+.file-comments-container{    
+    border-radius: 10px;
+    width: 100%;
+    margin-top:25px;
+
+    & .file-comments-heading{
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    & .file-comments{
+        background-color: @colorEditorBg;
+        padding: 10px;
+    }
+}
+
+// FILE ACTION BUTTONS
 .file-action{
     text-align:right;
 }

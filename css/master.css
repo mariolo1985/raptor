@@ -55,6 +55,7 @@ body {
 }
 .logo-header .title-wrapper {
   display: inline;
+  padding-left: 10px;
 }
 .logo-header .title-wrapper .header-title {
   font-size: 60px;
@@ -238,6 +239,30 @@ body {
   padding: 10px;
   border-radius: 10px;
 }
+.file-status-row {
+  text-align: center;
+  padding: 10px;
+}
+.file-status-row.pending {
+  background-color: #00C0FF;
+}
+.file-status-row.approved {
+  background-color: #2DCA6F;
+}
+.file-status-row .file-status {
+  font-size: 24px;
+}
+.file-set .file-set-title {
+  font-size: 18px;
+  text-decoration: underline;
+}
+.file-set .file-item {
+  margin: 5px 0;
+}
+.file-set .file-item .file-link {
+  text-decoration: none;
+  color: #0042FF;
+}
 .file-comments-container {
   border-radius: 10px;
   width: 100%;
@@ -250,17 +275,6 @@ body {
 .file-comments-container .file-comments {
   background-color: #EAEAEA;
   padding: 10px;
-}
-.file-set .file-set-title {
-  font-size: 18px;
-  text-decoration: underline;
-}
-.file-set .file-item {
-  margin: 5px 0;
-}
-.file-set .file-item .file-link {
-  text-decoration: none;
-  color: #0042FF;
 }
 .file-action {
   text-align: right;
