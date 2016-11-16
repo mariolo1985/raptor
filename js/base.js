@@ -2,8 +2,6 @@ window.onload = function(){
     window.addEventListener('scroll',scrollThrottle);
 }
 
-
-
 // QUERY STRING HELPER
 function getParameterByName(name, url) {
     if (!url) {
@@ -106,6 +104,36 @@ function putComments(setid, comments) {
         console.log(a);
         console.log(b);
         console.log(c);
+    })
+}
+
+function updateElementStatus(setId,status){
+    $.ajax({
+        url:'./services/updatestatus.php',
+        type:'POST',
+        data:{
+            SetId: setId,
+            Status: status
+        }
+    }).done(function(result){
+        console.log(result);
+    }).fail(function(a,b,c){
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    })
+}
+
+function getPendingElements(callback){
+    // GET PENDING ELEMENTS METADATA
+    $.ajax({
+        url:'./services/getfiles.php',
+        type:'GET',
+        data:{
+            Filter: "BY_PENDING_ELEMENTS"
+        }
+    }).done(function(result){
+        callback(result);
     })
 }
 
