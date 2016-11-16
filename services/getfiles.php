@@ -23,10 +23,33 @@ if (isset($_GET['Filter'])){
             break;
 
         case "BY_SETID":
+            include "dbhelper.php";
             include "filehelper.php";
+
+            $_dbhelper = new DbHelper();
+            $conn = $_dbhelper->getDefaultConnected();
+            
+            $setid = $_GET['SetId'];            
+            $result = $_dbhelper->getPendingElementsById($conn,$setid);   
+
+            // GET THE REST (COMMENTS, METADATA)
             $_filehelper = new FileHelper();
-            $setid = $_GET['SetId'];
-            $result = $_filehelper->getPendingFilesBySetId($setid);
+            $result = $_filehelper->getPendingFilesMetadata($result);
+            echo json_encode($result);
+            
+            break;
+
+            
+        case "BY_PENDING_ELEMENTS":
+            include "dbhelper.php";
+            include "filehelper.php";
+
+            $_dbhelper = new DbHelper();
+            $conn = $_dbhelper->getDefaultConnected();
+            $pendingElements = $_dbhelper->getPendingElements($conn);
+            
+            $_filehelper = new FileHelper(); 
+            $result = $_filehelper->getPendingFilesMetadata($pendingElements);
             echo json_encode($result);
             break;
 
