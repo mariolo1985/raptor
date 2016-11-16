@@ -24,39 +24,70 @@ var DisplaySet = function (_Component) {
     function DisplaySet(props) {
         _classCallCheck(this, DisplaySet);
 
-        return _possibleConstructorReturn(this, (DisplaySet.__proto__ || Object.getPrototypeOf(DisplaySet)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (DisplaySet.__proto__ || Object.getPrototypeOf(DisplaySet)).call(this, props));
+
+        _this.updateWorkflowStatus = _this.updateWorkflowStatus.bind(_this);
+        return _this;
     }
 
     _createClass(DisplaySet, [{
         key: 'createMarkup',
         value: function createMarkup(html) {
+            // CREATE MARKUP FOR HTML INJECTION
             return { __html: html };
         }
     }, {
-        key: 'render',
-        value: function render() {
+        key: 'makeDate',
+        value: function makeDate(uploadDate) {
+            // PARSE DATE AND RETURN AS READABLE STRING
+            uploadDate = new Date(uploadDate);
+
+            var hours = uploadDate.getHours();
+            var minutes = uploadDate.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+
+            uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+
+            return uploadDate;
+        }
+    }, {
+        key: 'updateWorkflowStatus',
+        value: function updateWorkflowStatus(setid, status) {
+            // DB UPDATE SUCCESS        
+            $.ajax({
+                url: './services/updatestatus.php',
+                type: 'POST',
+                data: {
+                    SetId: setid,
+                    Status: status
+                }
+            }).done(function (result) {
+                this.props.refresh();
+            }.bind(this));
+        }
+    }, {
+        key: 'parseSetJson',
+        value: function parseSetJson(jSet) {
             var _this2 = this;
 
-            var jSet = JSON.parse(this.props.set); // JSON THE SET RESULTS
             var uploadDate,
                 setId,
-                comments = "";
-            var filenames = [];
+                wfStatus,
+                comments = "",
+                filenames = [];
+
             jSet.map(function (item, i) {
                 if (item['Upload Date']) {
                     // PARSE UPLOAD DATE IN READABLE FORMAT
                     uploadDate = item['Upload Date'];
-
-                    uploadDate = new Date(uploadDate);
-                    var hours = uploadDate.getHours();
-                    var minutes = uploadDate.getMinutes();
-                    var ampm = hours >= 12 ? 'pm' : 'am';
-                    hours = hours % 12;
-                    hours = hours ? hours : 12; // the hour '0' should be '12'
-                    minutes = minutes < 10 ? '0' + minutes : minutes;
-                    var strTime = hours + ':' + minutes + ' ' + ampm;
-
-                    uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+                    uploadDate = _this2.makeDate(uploadDate);
+                } else if (item['WorkflowStatus']) {
+                    // GET WORKFLOW STATUS
+                    wfStatus = item['WorkflowStatus'];
                 } else if (item['Comments']) {
                     // GET COMMENTS WHEN FILES WERE UPLOADED
                     var tempComments;
@@ -74,13 +105,55 @@ var DisplaySet = function (_Component) {
                 }
             });
 
+            var SetInfo = {
+                'SetId': setId,
+                'UploadDate': uploadDate,
+                'WorkflowStatus': wfStatus,
+                'Comments': comments,
+                'filenames': filenames
+            };
+
+            return SetInfo;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var jSet;
+            jSet = JSON.parse(this.props.set);
+
+            var info = this.parseSetJson(jSet);
+            var uploadDate,
+                setId,
+                wfStatus,
+                comments = "",
+                filenames = [];
+
+            uploadDate = info['UploadDate'];
+            setId = info['SetId'];
+            wfStatus = info['WorkflowStatus'];
+            comments = info['Comments'];
+            filenames = info['filenames'];
+
             var setTitle = "Uploaded: " + uploadDate;
+            var isPending = wfStatus == "PENDING" ? true : false;
+            var statusRowClass = isPending ? 'file-status-row pending' : 'file-status-row approved';
             return _react2.default.createElement(
                 'div',
                 { className: 'file-set-container', 'data-setid': setId },
                 _react2.default.createElement(
                     'div',
                     { className: 'file-row clear' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: statusRowClass },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'file-status' },
+                            wfStatus
+                        )
+                    ),
                     _react2.default.createElement(
                         'div',
                         { className: 'file-set' },
@@ -120,10 +193,18 @@ var DisplaySet = function (_Component) {
                             { className: 'btn btn-reset' },
                             'Reject'
                         ),
-                        _react2.default.createElement(
+                        isPending ? _react2.default.createElement(
                             'button',
-                            { className: 'btn btn-checkin' },
+                            { className: 'btn btn-checkin', onClick: function onClick() {
+                                    return _this3.updateWorkflowStatus(setId, 'APPROVED');
+                                } },
                             'Approve'
+                        ) : _react2.default.createElement(
+                            'button',
+                            { className: 'btn btn-checkin', onClick: function onClick() {
+                                    return _this3.updateWorkflowStatus(setId, 'IMPLEMENTED');
+                                } },
+                            'Implement'
                         )
                     )
                 )

@@ -26,12 +26,45 @@ var FileDisplay = function (_Component) {
     function FileDisplay(props) {
         _classCallCheck(this, FileDisplay);
 
-        return _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
+
+        _this.state = {
+            sets: []
+        };
+
+        _this.getPendingElements = _this.getPendingElements.bind(_this);
+        _this.updateSets = _this.updateSets.bind(_this);
+
+        _this.getPendingElements(); // GET PENDING ELEMENTS
+        return _this;
     }
 
     _createClass(FileDisplay, [{
+        key: 'getPendingElements',
+        value: function (_getPendingElements) {
+            function getPendingElements() {
+                return _getPendingElements.apply(this, arguments);
+            }
+
+            getPendingElements.toString = function () {
+                return _getPendingElements.toString();
+            };
+
+            return getPendingElements;
+        }(function () {
+            getPendingElements(this.updateSets);
+        })
+    }, {
+        key: 'updateSets',
+        value: function updateSets(sets) {
+            this.setState({
+                sets: sets
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -40,11 +73,11 @@ var FileDisplay = function (_Component) {
                     'h1',
                     null,
                     '(',
-                    this.props.sets.length,
+                    this.state.sets.length,
                     ') Pending Sets In Review'
                 ),
-                this.props.sets.length > 0 ? this.props.sets.map(function (set, i) {
-                    return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
+                this.state.sets.length > 0 ? this.state.sets.map(function (set, i) {
+                    return _react2.default.createElement(_.DisplaySet, { set: set, key: i, refresh: _this2.getPendingElements });
                 }) : null
             );
         }

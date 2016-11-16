@@ -22191,15 +22191,48 @@
 	    function FileDisplay(props) {
 	        _classCallCheck(this, FileDisplay);
 
-	        return _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
+
+	        _this.state = {
+	            sets: []
+	        };
+
+	        _this.getPendingElements = _this.getPendingElements.bind(_this);
+	        _this.updateSets = _this.updateSets.bind(_this);
+
+	        _this.getPendingElements(); // GET PENDING ELEMENTS
+	        return _this;
 	    }
 
 	    _createClass(FileDisplay, [{
+	        key: 'getPendingElements',
+	        value: function (_getPendingElements) {
+	            function getPendingElements() {
+	                return _getPendingElements.apply(this, arguments);
+	            }
+
+	            getPendingElements.toString = function () {
+	                return _getPendingElements.toString();
+	            };
+
+	            return getPendingElements;
+	        }(function () {
+	            getPendingElements(this.updateSets);
+	        })
+	    }, {
+	        key: 'updateSets',
+	        value: function updateSets(sets) {
+	            this.setState({
+	                sets: sets
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
 
-	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, _react2.default.createElement('h1', null, '(', this.props.sets.length, ') Pending Sets In Review'), this.props.sets.length > 0 ? this.props.sets.map(function (set, i) {
-	                return _react2.default.createElement(_.DisplaySet, { set: set, key: i });
+	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, _react2.default.createElement('h1', null, '(', this.state.sets.length, ') Pending Sets In Review'), this.state.sets.length > 0 ? this.state.sets.map(function (set, i) {
+	                return _react2.default.createElement(_.DisplaySet, { set: set, key: i, refresh: _this2.getPendingElements });
 	            }) : null);
 	        }
 	    }]);
@@ -22263,39 +22296,70 @@
 	    function DisplaySet(props) {
 	        _classCallCheck(this, DisplaySet);
 
-	        return _possibleConstructorReturn(this, (DisplaySet.__proto__ || Object.getPrototypeOf(DisplaySet)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (DisplaySet.__proto__ || Object.getPrototypeOf(DisplaySet)).call(this, props));
+
+	        _this.updateWorkflowStatus = _this.updateWorkflowStatus.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(DisplaySet, [{
 	        key: 'createMarkup',
 	        value: function createMarkup(html) {
+	            // CREATE MARKUP FOR HTML INJECTION
 	            return { __html: html };
 	        }
 	    }, {
-	        key: 'render',
-	        value: function render() {
+	        key: 'makeDate',
+	        value: function makeDate(uploadDate) {
+	            // PARSE DATE AND RETURN AS READABLE STRING
+	            uploadDate = new Date(uploadDate);
+
+	            var hours = uploadDate.getHours();
+	            var minutes = uploadDate.getMinutes();
+	            var ampm = hours >= 12 ? 'pm' : 'am';
+	            hours = hours % 12;
+	            hours = hours ? hours : 12; // the hour '0' should be '12'
+	            minutes = minutes < 10 ? '0' + minutes : minutes;
+	            var strTime = hours + ':' + minutes + ' ' + ampm;
+
+	            uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+
+	            return uploadDate;
+	        }
+	    }, {
+	        key: 'updateWorkflowStatus',
+	        value: function updateWorkflowStatus(setid, status) {
+	            // DB UPDATE SUCCESS        
+	            $.ajax({
+	                url: './services/updatestatus.php',
+	                type: 'POST',
+	                data: {
+	                    SetId: setid,
+	                    Status: status
+	                }
+	            }).done(function (result) {
+	                this.props.refresh();
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'parseSetJson',
+	        value: function parseSetJson(jSet) {
 	            var _this2 = this;
 
-	            var jSet = JSON.parse(this.props.set); // JSON THE SET RESULTS
 	            var uploadDate,
 	                setId,
-	                comments = "";
-	            var filenames = [];
+	                wfStatus,
+	                comments = "",
+	                filenames = [];
+
 	            jSet.map(function (item, i) {
 	                if (item['Upload Date']) {
 	                    // PARSE UPLOAD DATE IN READABLE FORMAT
 	                    uploadDate = item['Upload Date'];
-
-	                    uploadDate = new Date(uploadDate);
-	                    var hours = uploadDate.getHours();
-	                    var minutes = uploadDate.getMinutes();
-	                    var ampm = hours >= 12 ? 'pm' : 'am';
-	                    hours = hours % 12;
-	                    hours = hours ? hours : 12; // the hour '0' should be '12'
-	                    minutes = minutes < 10 ? '0' + minutes : minutes;
-	                    var strTime = hours + ':' + minutes + ' ' + ampm;
-
-	                    uploadDate = uploadDate.getMonth() + 1 + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear() + ' ' + strTime;
+	                    uploadDate = _this2.makeDate(uploadDate);
+	                } else if (item['WorkflowStatus']) {
+	                    // GET WORKFLOW STATUS
+	                    wfStatus = item['WorkflowStatus'];
 	                } else if (item['Comments']) {
 	                    // GET COMMENTS WHEN FILES WERE UPLOADED
 	                    var tempComments;
@@ -22313,11 +22377,48 @@
 	                }
 	            });
 
+	            var SetInfo = {
+	                'SetId': setId,
+	                'UploadDate': uploadDate,
+	                'WorkflowStatus': wfStatus,
+	                'Comments': comments,
+	                'filenames': filenames
+	            };
+
+	            return SetInfo;
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this3 = this;
+
+	            var jSet;
+	            jSet = JSON.parse(this.props.set);
+
+	            var info = this.parseSetJson(jSet);
+	            var uploadDate,
+	                setId,
+	                wfStatus,
+	                comments = "",
+	                filenames = [];
+
+	            uploadDate = info['UploadDate'];
+	            setId = info['SetId'];
+	            wfStatus = info['WorkflowStatus'];
+	            comments = info['Comments'];
+	            filenames = info['filenames'];
+
 	            var setTitle = "Uploaded: " + uploadDate;
-	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('p', { className: 'file-set-title' }, setTitle), filenames.map(function (item, i) {
+	            var isPending = wfStatus == "PENDING" ? true : false;
+	            var statusRowClass = isPending ? 'file-status-row pending' : 'file-status-row approved';
+	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: statusRowClass }, _react2.default.createElement('span', { className: 'file-status' }, wfStatus)), _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('p', { className: 'file-set-title' }, setTitle), filenames.map(function (item, i) {
 	                var link = './pending_elements/' + setId + '/' + item;
 	                return _react2.default.createElement('div', { className: 'file-item', key: i }, _react2.default.createElement('a', { className: 'file-link', href: link }, item));
-	            })), _react2.default.createElement('div', { className: 'file-comments-container' }, _react2.default.createElement('span', { className: 'file-comments-heading' }, 'Comments:'), _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })), _react2.default.createElement('div', { className: 'file-action' }, _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reject'), _react2.default.createElement('button', { className: 'btn btn-checkin' }, 'Approve'))));
+	            })), _react2.default.createElement('div', { className: 'file-comments-container' }, _react2.default.createElement('span', { className: 'file-comments-heading' }, 'Comments:'), _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })), _react2.default.createElement('div', { className: 'file-action' }, _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reject'), isPending ? _react2.default.createElement('button', { className: 'btn btn-checkin', onClick: function onClick() {
+	                    return _this3.updateWorkflowStatus(setId, 'APPROVED');
+	                } }, 'Approve') : _react2.default.createElement('button', { className: 'btn btn-checkin', onClick: function onClick() {
+	                    return _this3.updateWorkflowStatus(setId, 'IMPLEMENTED');
+	                } }, 'Implement'))));
 	        }
 	    }]);
 
