@@ -22338,7 +22338,6 @@
 	                    Status: status
 	                }
 	            }).done(function (result) {
-								console.log('refresh: ' + result);
 	                this.props.refresh();
 	            }.bind(this));
 	        }

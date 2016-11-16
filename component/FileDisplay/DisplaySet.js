@@ -99,7 +99,7 @@ class DisplaySet extends Component {
         uploadDate = info['UploadDate'];
         setId = info['SetId'];
         wfStatus = info['WorkflowStatus'];
-        comments = info['Comments'];
+        comments = info['Comments'];        
         filenames = info['filenames'];
 
         var setTitle = "Uploaded: " + uploadDate;

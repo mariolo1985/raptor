@@ -82,7 +82,7 @@ class FileHelper
             return null;
         }
     }
-    function getPendingFilesMetadata($sets){
+    function getPendingFilesMetadata($sets){        
         $PendingSets = array();
 
         foreach ($sets as $key => $set){                    
