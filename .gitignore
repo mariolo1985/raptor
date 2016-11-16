@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 pending_elements
+implemented_elements
