@@ -38,6 +38,17 @@ class FileHelper
         return $guid;
     }
 
+    function moveImplementedFiles($setId){
+        $origPath = '../pending_elements/' . $setId;
+        $movePath = '../implemented_elements/' . $setId;
+
+        if (!file_exists($movePath)){
+            mkdir('../implemented_elements');
+        }
+        $result = rename($origPath,$movePath);
+        return $result;
+    }
+
     // UPLOAD COMMENTS TO DIRECTORY 
     function putCheckInComments($setId,$commentsHtml){
         $moveToPath = '../pending_elements/' . $setId . '/';
@@ -77,12 +88,18 @@ class FileHelper
         foreach ($sets as $key => $set){                    
             $setId = $set['SetId'];
             $uploadDate = $set['UploadDate'];
+            $wfStatus = $set['WorkflowStatus'];
+
             $tmp = json_decode($this->getMetadataBySetId($setId),true);
             $comments = $this->getCommentsBySetId($setId);
 
             // INCLUDE SET ID 
             $tmp[] = array(
                 'SetId'=>$setId
+            );
+            // INCLUDE WFSTATUS
+            $tmp[]=array(
+                'WorkflowStatus'=>$wfStatus
             );
             // INCLUDE UPLOAD DATE TO DATA
             $tmp[] = array(
@@ -92,6 +109,7 @@ class FileHelper
             $tmp[] = array(
                 'Comments'=>$comments
             );
+            
             $PendingSets[]=json_encode($tmp);                     
         }
 
