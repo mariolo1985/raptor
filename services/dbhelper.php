@@ -50,8 +50,31 @@ class DbHelper{
                       
     }
 
+    // UPDATE PENDING ELEMENT STATUS
+    function updatePendingElementStatus($_mysqli, $setId, $status){
+        try{
+            // PREPARE VARIABLES
+            $stmt = $_mysqli->prepare('SET @_setId := ?');// SET ID
+            $stmt->bind_param('s',$setId);
+            $stmt->execute();
+
+            $stmt = $_mysqli->prepare('SET @_wfstatus := ?');//WORKFLOW STATUS
+            $stmt->bind_param('s',$status);
+            $stmt->execute();
+
+            $result = $_mysqli->query('CALL pUpdatePendingElementStatus(@_setId, @_wfstatus)');            
+            return $result;
+            
+            $result->free();
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+
+        $_mysqli->close();
+    }
+
     // GET PENDING ELEMENTS 
-        function getPendingElements($_mysqli){
+    function getPendingElements($_mysqli){
         if (!$result = $_mysqli->query("CALL pSelectPendingElementsByDesc()")){
             // return empty array
             return json_encode(array());
@@ -66,13 +89,42 @@ class DbHelper{
             }
         }
 
-        echo json_encode($rows);
+        return $rows;
         $results->free();// free result
         $_mysqli->close();// closes connection
                        
     }
 
+    // GET PENDING ELEMENT BY ID
+    function getPendingElementsById($_mysqli,$setId){
+        try{            
+            // PREPARE VARIABLE
+            $stmt = $_mysqli->prepare('SET @_setId := ?');// SET ID
+            $stmt->bind_param('s',$setId);
+            $stmt->execute();
 
+            if (!$result = $_mysqli->query('CALL pSelectPendingElementsBySetId(@_setId)')){
+                return json_encode(array());
+            }
+            
+            $rows = array();
+            if ($result->num_rows===0){
+                // no results
+            }else{
+                while ($r = $result->fetch_assoc()){
+                    $rows[]=$r;
+                }
+            }
+
+            return $rows;
+            $result->free();
+
+            
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+        $_mysqli->close();
+    }
     
 }
 
