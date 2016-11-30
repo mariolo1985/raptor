@@ -41,46 +41,20 @@ class DisplaySet extends Component {
         }.bind(this));
     }
     parseSetJson(jSet){
-        var uploadDate,
-            setId,
-            wfStatus,
-            comments = "",
-            filenames = [];
+        var item = jSet[0];
 
-        jSet.map((item, i) => {
-            if (item['Upload Date']) {
-                // PARSE UPLOAD DATE IN READABLE FORMAT
-                uploadDate = item['Upload Date'];
-                uploadDate = this.makeDate(uploadDate);
+        var comments,
+            tempComments;
+        
+        comments = item['Comments'];
+        comments = this.createMarkup(comments);
 
-            }else if (item['WorkflowStatus']){  
-                // GET WORKFLOW STATUS
-                wfStatus = item['WorkflowStatus'];
-            } else if (item['Comments']) {
-                // GET COMMENTS WHEN FILES WERE UPLOADED
-                var tempComments;
-                tempComments = item['Comments'];
-                tempComments = $.parseHTML(tempComments);
-
-                $.each(tempComments, function (i, el) {
-                    comments += el.outerHTML;
-                });
-                comments = this.createMarkup(comments);
-            } else if (item['SetId']) {
-                setId = item['SetId'];
-            } else if (item['filename']) {
-                filenames.push(item['filename']);
-            }
-        });
-
-
-         var SetInfo = {
-            'SetId':setId,
-            'UploadDate':uploadDate,
-            'WorkflowStatus':wfStatus,
-            'Comments':comments,
-            'filenames':filenames
-        }
+        var SetInfo = {}
+        SetInfo.SetId = item['SetId'];
+        SetInfo.UploadDate = this.makeDate(item['UploadDate']);
+        SetInfo.WorkflowStatus = item['WorkflowStatus'];
+        SetInfo.Comments = comments;
+        SetInfo.Filenames = item['Filenames'];
 
         return SetInfo;
 
@@ -96,11 +70,11 @@ class DisplaySet extends Component {
             comments = "",
             filenames = [];
 
-        uploadDate = info['UploadDate'];
-        setId = info['SetId'];
-        wfStatus = info['WorkflowStatus'];
-        comments = info['Comments'];        
-        filenames = info['filenames'];
+        uploadDate = info.UploadDate;
+        setId = info.SetId;
+        wfStatus = info.WorkflowStatus;
+        comments = info.Comments;        
+        filenames = info.Filenames;
 
         var setTitle = "Uploaded: " + uploadDate;
         var isPending = wfStatus=="PENDING"? true:false;
@@ -115,10 +89,11 @@ class DisplaySet extends Component {
                         <p className='file-set-title'>{setTitle}</p>
                         {
                             filenames.map((item, i) => {
-                                var link = './pending_elements/' + setId + '/' + item;
+                                var fn = item['filename'];
+                                var link = './pending_elements/' + setId + '/' + fn;
                                 return (
                                     <div className='file-item' key={i}>
-                                        <a className='file-link' href={link}>{item}</a>
+                                        <a className='file-link' href={link}>{fn}</a>
                                     </div>
                                 );
                             })
@@ -136,7 +111,7 @@ class DisplaySet extends Component {
                                 <button className='btn btn-checkin' onClick={() => this.updateWorkflowStatus(setId,'APPROVED')}>Approve</button>          
                                 : 
                                 <button className='btn btn-checkin' onClick={() => this.updateWorkflowStatus(setId,'IMPLEMENTED')}>Implement</button>   
-                        }             
+                        }
                     </div>
                 </div>
             </div>
