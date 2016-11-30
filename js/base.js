@@ -54,8 +54,7 @@ function putFile(formdata, comments) {
         data: formdata
     })
         .done(function (result, b, c) {
-            // ONCE UPLOADED THAN ADD METADTA TO DB
-            addFileMeta(result, 'PENDING');
+            // ONCE UPLOADED THAN SAVE COMMENTS            
             putComments(result, comments);
         })
         .fail(function (a, b, c) {
@@ -65,6 +64,19 @@ function putFile(formdata, comments) {
             console.log(c);
         });
 
+}
+
+function getPendingElements(callback){
+    // GET PENDING ELEMENTS METADATA
+    $.ajax({
+        url:'./services/getfiles.php',
+        type:'GET',
+        data:{
+            Filter: "BY_PENDING_ELEMENTS"
+        }
+    }).done(function(result){  
+        callback(result);
+    })
 }
 
 function addFileMeta(setid,status) {
@@ -121,20 +133,6 @@ function updateElementStatus(setId,status){
         console.log(a);
         console.log(b);
         console.log(c);
-    })
-}
-
-function getPendingElements(callback){
-    // GET PENDING ELEMENTS METADATA
-    $.ajax({
-        url:'./services/getfiles.php',
-        type:'GET',
-        data:{
-            Filter: "BY_PENDING_ELEMENTS"
-        }
-    }).done(function(result){
-        
-        callback(result);
     })
 }
 
