@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
-import { FilePreview } from '../';
+import { FilePreview } from './';
 
 
 class Attachment extends Component {
