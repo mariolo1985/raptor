@@ -20,70 +20,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var FileDisplay = function (_Component) {
-    _inherits(FileDisplay, _Component);
+var ImpFileDisplay = function (_Component) {
+    _inherits(ImpFileDisplay, _Component);
 
-    function FileDisplay(props) {
-        _classCallCheck(this, FileDisplay);
+    function ImpFileDisplay(props) {
+        _classCallCheck(this, ImpFileDisplay);
 
-        var _this = _possibleConstructorReturn(this, (FileDisplay.__proto__ || Object.getPrototypeOf(FileDisplay)).call(this, props));
+        return _possibleConstructorReturn(this, (ImpFileDisplay.__proto__ || Object.getPrototypeOf(ImpFileDisplay)).call(this, props));
+    } // end construtor
 
-        _this.state = {
-            sets: []
-        };
 
-        _this.getPendingElements = _this.getPendingElements.bind(_this);
-        _this.updateSets = _this.updateSets.bind(_this);
-
-        _this.getPendingElements(); // GET PENDING ELEMENTS
-        return _this;
-    }
-
-    _createClass(FileDisplay, [{
-        key: 'getPendingElements',
-        value: function (_getPendingElements) {
-            function getPendingElements() {
-                return _getPendingElements.apply(this, arguments);
-            }
-
-            getPendingElements.toString = function () {
-                return _getPendingElements.toString();
-            };
-
-            return getPendingElements;
-        }(function () {
-            getPendingElements(this.updateSets);
-        })
-    }, {
-        key: 'updateSets',
-        value: function updateSets(sets) {
-            this.setState({
-                sets: sets
-            });
-        }
-    }, {
+    _createClass(ImpFileDisplay, [{
         key: 'render',
         value: function render() {
-            var _this2 = this;
 
             return _react2.default.createElement(
                 'div',
                 { className: 'file-display-wrapper' },
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    '(',
-                    this.state.sets.length,
-                    ') Pending Sets In Review'
-                ),
-                this.state.sets.length > 0 ? this.state.sets.map(function (set, i) {
-                    return _react2.default.createElement(_.DisplaySet, { set: set, key: i, refresh: _this2.getPendingElements });
+                this.props.Sets.length > 0 ? this.props.Sets.map(function (set, i) {
+                    return _react2.default.createElement(_.ImpItem, { key: i, Set: set });
                 }) : null
             );
-        }
+        } // end render
+
     }]);
 
-    return FileDisplay;
+    return ImpFileDisplay;
 }(_react.Component);
 
-exports.default = FileDisplay;
+exports.default = ImpFileDisplay;

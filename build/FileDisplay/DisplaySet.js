@@ -72,53 +72,26 @@ var DisplaySet = function (_Component) {
     }, {
         key: 'parseSetJson',
         value: function parseSetJson(jSet) {
-            var _this2 = this;
+            var item = jSet[0];
 
-            var uploadDate,
-                setId,
-                wfStatus,
-                comments = "",
-                filenames = [];
+            var comments, tempComments;
 
-            jSet.map(function (item, i) {
-                if (item['Upload Date']) {
-                    // PARSE UPLOAD DATE IN READABLE FORMAT
-                    uploadDate = item['Upload Date'];
-                    uploadDate = _this2.makeDate(uploadDate);
-                } else if (item['WorkflowStatus']) {
-                    // GET WORKFLOW STATUS
-                    wfStatus = item['WorkflowStatus'];
-                } else if (item['Comments']) {
-                    // GET COMMENTS WHEN FILES WERE UPLOADED
-                    var tempComments;
-                    tempComments = item['Comments'];
-                    tempComments = $.parseHTML(tempComments);
+            comments = item['Comments'];
+            comments = this.createMarkup(comments);
 
-                    $.each(tempComments, function (i, el) {
-                        comments += el.outerHTML;
-                    });
-                    comments = _this2.createMarkup(comments);
-                } else if (item['SetId']) {
-                    setId = item['SetId'];
-                } else if (item['filename']) {
-                    filenames.push(item['filename']);
-                }
-            });
-
-            var SetInfo = {
-                'SetId': setId,
-                'UploadDate': uploadDate,
-                'WorkflowStatus': wfStatus,
-                'Comments': comments,
-                'filenames': filenames
-            };
+            var SetInfo = {};
+            SetInfo.SetId = item['SetId'];
+            SetInfo.UploadDate = this.makeDate(item['UploadDate']);
+            SetInfo.WorkflowStatus = item['WorkflowStatus'];
+            SetInfo.Comments = comments;
+            SetInfo.Filenames = item['Filenames'];
 
             return SetInfo;
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this2 = this;
 
             var jSet;
             jSet = JSON.parse(this.props.set);
@@ -130,11 +103,11 @@ var DisplaySet = function (_Component) {
                 comments = "",
                 filenames = [];
 
-            uploadDate = info['UploadDate'];
-            setId = info['SetId'];
-            wfStatus = info['WorkflowStatus'];
-            comments = info['Comments'];
-            filenames = info['filenames'];
+            uploadDate = info.UploadDate;
+            setId = info.SetId;
+            wfStatus = info.WorkflowStatus;
+            comments = info.Comments;
+            filenames = info.Filenames;
 
             var setTitle = "Uploaded: " + uploadDate;
             var isPending = wfStatus == "PENDING" ? true : false;
@@ -163,14 +136,15 @@ var DisplaySet = function (_Component) {
                             setTitle
                         ),
                         filenames.map(function (item, i) {
-                            var link = './pending_elements/' + setId + '/' + item;
+                            var fn = item['filename'];
+                            var link = './pending_elements/' + setId + '/' + fn;
                             return _react2.default.createElement(
                                 'div',
                                 { className: 'file-item', key: i },
                                 _react2.default.createElement(
                                     'a',
                                     { className: 'file-link', href: link },
-                                    item
+                                    fn
                                 )
                             );
                         })
@@ -196,13 +170,13 @@ var DisplaySet = function (_Component) {
                         isPending ? _react2.default.createElement(
                             'button',
                             { className: 'btn btn-checkin', onClick: function onClick() {
-                                    return _this3.updateWorkflowStatus(setId, 'APPROVED');
+                                    return _this2.updateWorkflowStatus(setId, 'APPROVED');
                                 } },
                             'Approve'
                         ) : _react2.default.createElement(
                             'button',
                             { className: 'btn btn-checkin', onClick: function onClick() {
-                                    return _this3.updateWorkflowStatus(setId, 'IMPLEMENTED');
+                                    return _this2.updateWorkflowStatus(setId, 'IMPLEMENTED');
                                 } },
                             'Implement'
                         )

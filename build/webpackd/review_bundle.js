@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(186);
 
 
 /***/ },
@@ -21353,7 +21353,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.DisplaySet = exports.FileDisplay = exports.FilePreview = exports.Attachment = exports.MainNav = undefined;
+	exports.ImpFileDisplay = exports.FileDisplay = exports.Attachment = exports.MainNav = undefined;
 
 	var _MainNav2 = __webpack_require__(174);
 
@@ -21363,17 +21363,13 @@
 
 	var _Attachment3 = _interopRequireDefault(_Attachment2);
 
-	var _FilePreview2 = __webpack_require__(177);
-
-	var _FilePreview3 = _interopRequireDefault(_FilePreview2);
-
-	var _FileDisplay2 = __webpack_require__(178);
+	var _FileDisplay2 = __webpack_require__(179);
 
 	var _FileDisplay3 = _interopRequireDefault(_FileDisplay2);
 
-	var _DisplaySet2 = __webpack_require__(179);
+	var _ImpFileDisplay2 = __webpack_require__(182);
 
-	var _DisplaySet3 = _interopRequireDefault(_DisplaySet2);
+	var _ImpFileDisplay3 = _interopRequireDefault(_ImpFileDisplay2);
 
 	function _interopRequireDefault(obj) {
 	  return obj && obj.__esModule ? obj : { default: obj };
@@ -21381,9 +21377,8 @@
 
 	exports.MainNav = _MainNav3.default;
 	exports.Attachment = _Attachment3.default;
-	exports.FilePreview = _FilePreview3.default;
 	exports.FileDisplay = _FileDisplay3.default;
-	exports.DisplaySet = _DisplaySet3.default;
+	exports.ImpFileDisplay = _ImpFileDisplay3.default;
 
 /***/ },
 /* 174 */
@@ -21504,7 +21499,7 @@
 
 	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
-	var _ = __webpack_require__(173);
+	var _ = __webpack_require__(177);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -22058,6 +22053,32 @@
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.FilePreview = exports.Attachment = undefined;
+
+	var _Attachment2 = __webpack_require__(175);
+
+	var _Attachment3 = _interopRequireDefault(_Attachment2);
+
+	var _FilePreview2 = __webpack_require__(178);
+
+	var _FilePreview3 = _interopRequireDefault(_FilePreview2);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	exports.Attachment = _Attachment3.default;
+	exports.FilePreview = _FilePreview3.default;
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -22136,7 +22157,7 @@
 	exports.default = FilePreview;
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22161,7 +22182,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ = __webpack_require__(173);
+	var _ = __webpack_require__(180);
 
 	function _interopRequireDefault(obj) {
 	    return obj && obj.__esModule ? obj : { default: obj };
@@ -22243,7 +22264,33 @@
 	exports.default = FileDisplay;
 
 /***/ },
-/* 179 */
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.DisplaySet = exports.FileDisplay = undefined;
+
+	var _FileDisplay2 = __webpack_require__(179);
+
+	var _FileDisplay3 = _interopRequireDefault(_FileDisplay2);
+
+	var _DisplaySet2 = __webpack_require__(181);
+
+	var _DisplaySet3 = _interopRequireDefault(_DisplaySet2);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	exports.FileDisplay = _FileDisplay3.default;
+	exports.DisplaySet = _DisplaySet3.default;
+
+/***/ },
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22344,53 +22391,26 @@
 	    }, {
 	        key: 'parseSetJson',
 	        value: function parseSetJson(jSet) {
-	            var _this2 = this;
+	            var item = jSet[0];
 
-	            var uploadDate,
-	                setId,
-	                wfStatus,
-	                comments = "",
-	                filenames = [];
+	            var comments, tempComments;
 
-	            jSet.map(function (item, i) {
-	                if (item['Upload Date']) {
-	                    // PARSE UPLOAD DATE IN READABLE FORMAT
-	                    uploadDate = item['Upload Date'];
-	                    uploadDate = _this2.makeDate(uploadDate);
-	                } else if (item['WorkflowStatus']) {
-	                    // GET WORKFLOW STATUS
-	                    wfStatus = item['WorkflowStatus'];
-	                } else if (item['Comments']) {
-	                    // GET COMMENTS WHEN FILES WERE UPLOADED
-	                    var tempComments;
-	                    tempComments = item['Comments'];
-	                    tempComments = $.parseHTML(tempComments);
+	            comments = item['Comments'];
+	            comments = this.createMarkup(comments);
 
-	                    $.each(tempComments, function (i, el) {
-	                        comments += el.outerHTML;
-	                    });
-	                    comments = _this2.createMarkup(comments);
-	                } else if (item['SetId']) {
-	                    setId = item['SetId'];
-	                } else if (item['filename']) {
-	                    filenames.push(item['filename']);
-	                }
-	            });
-
-	            var SetInfo = {
-	                'SetId': setId,
-	                'UploadDate': uploadDate,
-	                'WorkflowStatus': wfStatus,
-	                'Comments': comments,
-	                'filenames': filenames
-	            };
+	            var SetInfo = {};
+	            SetInfo.SetId = item['SetId'];
+	            SetInfo.UploadDate = this.makeDate(item['UploadDate']);
+	            SetInfo.WorkflowStatus = item['WorkflowStatus'];
+	            SetInfo.Comments = comments;
+	            SetInfo.Filenames = item['Filenames'];
 
 	            return SetInfo;
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this2 = this;
 
 	            var jSet;
 	            jSet = JSON.parse(this.props.set);
@@ -22402,22 +22422,23 @@
 	                comments = "",
 	                filenames = [];
 
-	            uploadDate = info['UploadDate'];
-	            setId = info['SetId'];
-	            wfStatus = info['WorkflowStatus'];
-	            comments = info['Comments'];
-	            filenames = info['filenames'];
+	            uploadDate = info.UploadDate;
+	            setId = info.SetId;
+	            wfStatus = info.WorkflowStatus;
+	            comments = info.Comments;
+	            filenames = info.Filenames;
 
 	            var setTitle = "Uploaded: " + uploadDate;
 	            var isPending = wfStatus == "PENDING" ? true : false;
 	            var statusRowClass = isPending ? 'file-status-row pending' : 'file-status-row approved';
 	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: statusRowClass }, _react2.default.createElement('span', { className: 'file-status' }, wfStatus)), _react2.default.createElement('div', { className: 'file-set' }, _react2.default.createElement('p', { className: 'file-set-title' }, setTitle), filenames.map(function (item, i) {
-	                var link = './pending_elements/' + setId + '/' + item;
-	                return _react2.default.createElement('div', { className: 'file-item', key: i }, _react2.default.createElement('a', { className: 'file-link', href: link }, item));
+	                var fn = item['filename'];
+	                var link = './pending_elements/' + setId + '/' + fn;
+	                return _react2.default.createElement('div', { className: 'file-item', key: i }, _react2.default.createElement('a', { className: 'file-link', href: link }, fn));
 	            })), _react2.default.createElement('div', { className: 'file-comments-container' }, _react2.default.createElement('span', { className: 'file-comments-heading' }, 'Comments:'), _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: comments })), _react2.default.createElement('div', { className: 'file-action' }, _react2.default.createElement('button', { className: 'btn btn-reset' }, 'Reject'), isPending ? _react2.default.createElement('button', { className: 'btn btn-checkin', onClick: function onClick() {
-	                    return _this3.updateWorkflowStatus(setId, 'APPROVED');
+	                    return _this2.updateWorkflowStatus(setId, 'APPROVED');
 	                } }, 'Approve') : _react2.default.createElement('button', { className: 'btn btn-checkin', onClick: function onClick() {
-	                    return _this3.updateWorkflowStatus(setId, 'IMPLEMENTED');
+	                    return _this2.updateWorkflowStatus(setId, 'IMPLEMENTED');
 	                } }, 'Implement'))));
 	        }
 	    }]);
@@ -22428,8 +22449,194 @@
 	exports.default = DisplaySet;
 
 /***/ },
-/* 180 */,
-/* 181 */
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ = __webpack_require__(183);
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	    if (!self) {
+	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
+
+	function _inherits(subClass, superClass) {
+	    if (typeof superClass !== "function" && superClass !== null) {
+	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
+
+	var ImpFileDisplay = function (_Component) {
+	    _inherits(ImpFileDisplay, _Component);
+
+	    function ImpFileDisplay(props) {
+	        _classCallCheck(this, ImpFileDisplay);
+
+	        return _possibleConstructorReturn(this, (ImpFileDisplay.__proto__ || Object.getPrototypeOf(ImpFileDisplay)).call(this, props));
+	    } // end construtor
+
+
+	    _createClass(ImpFileDisplay, [{
+	        key: 'render',
+	        value: function render() {
+
+	            return _react2.default.createElement('div', { className: 'file-display-wrapper' }, this.props.Sets.length > 0 ? this.props.Sets.map(function (set, i) {
+	                return _react2.default.createElement(_.ImpItem, { key: i, Set: set });
+	            }) : null);
+	        } // end render
+
+	    }]);
+
+	    return ImpFileDisplay;
+	}(_react.Component);
+
+	exports.default = ImpFileDisplay;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ImpItem = undefined;
+
+	var _ImpItem2 = __webpack_require__(184);
+
+	var _ImpItem3 = _interopRequireDefault(_ImpItem2);
+
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	exports.ImpItem = _ImpItem3.default;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) {
+	    return obj && obj.__esModule ? obj : { default: obj };
+	}
+
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	    if (!self) {
+	        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
+
+	function _inherits(subClass, superClass) {
+	    if (typeof superClass !== "function" && superClass !== null) {
+	        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
+
+	var ImpItem = function (_Component) {
+	    _inherits(ImpItem, _Component);
+
+	    function ImpItem(props) {
+	        _classCallCheck(this, ImpItem);
+
+	        return _possibleConstructorReturn(this, (ImpItem.__proto__ || Object.getPrototypeOf(ImpItem)).call(this, props));
+	    }
+
+	    _createClass(ImpItem, [{
+	        key: 'createMarkup',
+	        value: function createMarkup(html) {
+	            // CREATE MARKUP FOR HTML INJECTION
+	            return { __html: html };
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var jSet = JSON.parse(this.props.Set);
+	            var item = jSet[0];
+
+	            var setObj = {};
+	            setObj.SetId = item['SetId'];
+	            setObj.VersionNum = item['VersionNum'];
+	            setObj.VersionDate = item['VersionDate'];
+	            setObj.Comments = this.createMarkup(item['Comments']);
+	            setObj.Filenames = item['Filenames'];
+
+	            return _react2.default.createElement('div', { className: 'file-set-container', 'data-setid': setObj.SetId }, _react2.default.createElement('div', { className: 'file-row clear' }, _react2.default.createElement('div', { className: 'file-status-row approved' }, _react2.default.createElement('span', { className: 'file-status' }, 'Version ', setObj.VersionNum)), _react2.default.createElement('div', { className: 'file-set' }, setObj.Filenames.length > 0 ? setObj.Filenames.map(function (filename, i) {
+	                var link = './implemented_elements/' + setObj.SetId + '/' + filename['filename'];
+	                return _react2.default.createElement('div', { className: 'file-item', key: i }, _react2.default.createElement('a', { className: 'file-link', href: link }, filename['filename']));
+	            }) : null), _react2.default.createElement('div', { className: 'file-comments-container' }, _react2.default.createElement('span', { className: 'file-comments-heading' }, 'Comments:'), _react2.default.createElement('div', { className: 'file-comments', dangerouslySetInnerHTML: setObj.Comments }))));
+	        } // end render
+
+	    }]);
+
+	    return ImpItem;
+	}(_react.Component);
+
+	exports.default = ImpItem;
+
+/***/ },
+/* 185 */,
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22446,13 +22653,15 @@
 
 	(0, _reactDom.render)(_react2.default.createElement(_build.MainNav, null), document.getElementById('main-nav'));
 
+	$(document).ready(function () {
+	    getPendingElements(renderElements);
+	});
+
 	// COMPONENT
 	function renderElements(elements) {
 
 	    (0, _reactDom.render)(_react2.default.createElement(_build.FileDisplay, { sets: elements }), document.getElementById('file-display'));
 	}
-
-	getPendingElements(renderElements);
 
 /***/ }
 /******/ ]);
