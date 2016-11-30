@@ -60,9 +60,14 @@ class FileHelper
     }
 
     // GET PENDING FILE NAMES BY SET
-    function getMetadataBySetId($setId){
-        $path = '../pending_elements/' . $setId;
-            $filePath = $path . '/metadata.json';
+    function getMetadataBySetId($setId, $isPendingSet){
+        if ($isPendingSet){
+            $path = '../pending_elements/' . $setId;
+        }else{
+            $path = '../implemented_elements/' . $setId;
+        }
+        
+        $filePath = $path . '/metadata.json';
         if (file_exists($filePath)){
             $fileContent = file_get_contents($filePath);
             return $fileContent;
@@ -71,9 +76,14 @@ class FileHelper
         }
     }
 
-    function getCommentsBySetId($setId){
-
-        $path = '../pending_elements/' . $setId;
+    // GETS COMMENT FILE AND CONTENT
+    function getCommentsBySetId($setId, $isPendingSet){
+        if ($isPendingSet){
+            $path = '../pending_elements/' . $setId;    
+        }else{
+            $path = '../implemented_elements/' . $setId;
+        }
+        
         $filePath = $path . '/comments.txt';
         if (file_exists($filePath)){
             $fileContent = file_get_contents($filePath);
@@ -82,32 +92,27 @@ class FileHelper
             return null;
         }
     }
-    function getPendingFilesMetadata($sets){        
-        $PendingSets = array();
 
-        foreach ($sets as $key => $set){                    
+
+    function getPendingFilesMetadata($sets){        
+        $PendingSets = [];
+
+        foreach ($sets as $key => $set){        
+            $tmp = [];            
             $setId = $set['SetId'];
             $uploadDate = $set['UploadDate'];
             $wfStatus = $set['WorkflowStatus'];
 
-            $tmp = json_decode($this->getMetadataBySetId($setId),true);
-            $comments = $this->getCommentsBySetId($setId);
+            $fileSets = $this->getMetadataBySetId($setId, true);
+            $comments = $this->getCommentsBySetId($setId, true);
 
             // INCLUDE SET ID 
             $tmp[] = array(
-                'SetId'=>$setId
-            );
-            // INCLUDE WFSTATUS
-            $tmp[]=array(
-                'WorkflowStatus'=>$wfStatus
-            );
-            // INCLUDE UPLOAD DATE TO DATA
-            $tmp[] = array(
-                'Upload Date'=>$uploadDate
-            );
-            // INCLUDE COMMENTS 
-            $tmp[] = array(
-                'Comments'=>$comments
+                'SetId'=>$setId,
+                'WorkflowStatus'=>$wfStatus,
+                'UploadDate'=>$uploadDate,
+                'Filenames'=>json_decode($fileSets),
+                'Comments'=>$comments  
             );
             
             $PendingSets[]=json_encode($tmp);                     
@@ -115,6 +120,34 @@ class FileHelper
 
         return $PendingSets;
     }
+
+    // GET IMPLEMENTED FILE METADATA
+    function getSetMetadata($sets){
+
+        $implementedSets = [];
+        foreach ($sets as $set){
+            $tmp = [];
+            $setid = $set['SetId'];
+            $versionNum = $set['VersionNumber'];
+            $versionDate = $set['VersionDate'];
+
+            $fileSets = $this->getMetadataBySetId($setid,false);
+            $comments = $this->getCommentsBySetId($setid,false);
+
+
+            $tmp[] = array(
+                'SetId'=>$setid,
+                'VersionNum'=> $versionNum,
+                'VersionDate'=>$versionDate,
+                'Filenames'=>json_decode($fileSets),
+                'Comments' => $comments
+            );
+
+            $implementedSets[] = json_encode($tmp);
+        }
+
+        return $implementedSets;
+    }// end getImplementedSetMetadata
 }
 
 ?>
