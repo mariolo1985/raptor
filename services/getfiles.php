@@ -11,6 +11,8 @@ if (isset($_GET['Filter'])){
             $conn = $_dbhelper->getDefaultConnected();
             $result = $_dbhelper->getPendingElements($conn);            
             echo json_encode($result);
+
+            $conn->close();
             break;
 
         case "BY_SETS":
@@ -37,6 +39,7 @@ if (isset($_GET['Filter'])){
             $result = $_filehelper->getPendingFilesMetadata($result);
             echo json_encode($result);
             
+            $conn->close();
             break;
 
             
@@ -51,6 +54,25 @@ if (isset($_GET['Filter'])){
             $_filehelper = new FileHelper(); 
             $result = $_filehelper->getPendingFilesMetadata($pendingElements);
             echo json_encode($result);
+
+            $conn->close();
+            break;
+
+        case "BY_ELEMENT_VERSION":
+            include "dbhelper.php";
+            $_dbhelper = new DbHelper();
+            $conn = $_dbhelper->getDefaultConnected();
+
+            $setResult = $_dbhelper->getSetVersionNumber($conn);
+
+            include "filehelper.php";
+            $_filehelper = new FileHelper();
+
+            $impResult = $_filehelper->getSetMetadata($setResult);
+            echo json_encode($impResult);
+
+            $conn->close();
+
             break;
 
         default:
