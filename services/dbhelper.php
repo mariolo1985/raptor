@@ -1,11 +1,10 @@
 <?php
 
 class DbHelper{
-//public $_mysqli;
-
     function __construct(){
 
     }
+
     function getDefaultConnected(){
         include ('../../creds/getcreds.php');
         $_credHelper = new CredHelper();
@@ -39,15 +38,12 @@ class DbHelper{
             $stmt->execute();
 
             $result = $_mysqli->query('CALL pInsertNewElement(@_setid,@_date,@_wfstatus)');
-            echo $result ? "TRUE" : "FALSE";
+            return $result;
             $result->free();
 
         }catch(Exception $e){
             echo $e->getMessage();
-        }
-
-        $_mysqli->close();// closes connection
-                      
+        }             
     }
 
     // UPDATE PENDING ELEMENT STATUS
@@ -70,7 +66,6 @@ class DbHelper{
             echo $e->getMessage();
         }
 
-        $_mysqli->close();
     }
 
     // GET PENDING ELEMENTS 
@@ -91,8 +86,6 @@ class DbHelper{
 
         return $rows;
         $results->free();// free result
-        $_mysqli->close();// closes connection
-                       
     }
 
     // GET PENDING ELEMENT BY ID
@@ -123,9 +116,97 @@ class DbHelper{
         }catch(Exception $e){
             echo $e->getMessage();
         }
-        $_mysqli->close();
     }
-    
+
+    // INSERT SET VERSION FOR HISTORY TRACKING
+    function insertSetVersion($_mysqli,$setId,$num,$upDate){
+        
+        try{
+            // DECLARE VARIABLES
+            $stmt = $_mysqli->prepare('SET @__setid := ?');
+            $result = $stmt->bind_param('s',$setId);
+            $stmt->execute();
+
+            $stmt = $_mysqli->prepare('SET @__versionNum := ?');
+            $stmt->bind_param('s', $num);
+            $stmt->execute();
+ 
+            $stmt = $_mysqli->prepare('SET @__versionDate := ?');
+            $stmt->bind_param('s',$upDate);
+            $stmt->execute();
+
+            $result = $_mysqli->query('CALL pInsertSetVersion(@__setid, @__versionNum, @__versionDate)');
+            return $result;
+            $result->free();
+        }catch(Exception $e){
+            echo 'error';
+            echo $e->getMessage();
+        }
+    }
+
+    // GET PATTERNS VERSION NUMBER
+    function getMainVersionNumber($_mysqli){
+      
+        try{
+            if (!$result = $_mysqli->query('CALL pGetMainVersionNumber()')){
+                return false;
+            }
+
+            $rows = array();
+            if ($result->num_rows===0){                
+                // no results
+            }else{
+                while($r = $result->fetch_assoc()){
+                    $rows[] = $r;
+                }
+                $verionNum = $rows[0]['VersionNumber'];
+                return $verionNum;
+            }
+
+            $result->free();
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+    }
+
+    // UPDATE MAIN VERSION NUMBER
+    function updateVersionNumber($_mysqli, $versionNum){
+        try{
+            $stmt = $_mysqli->prepare('SET @_versionNum := ?');
+            $stmt->bind_param('s',$versionNum);
+            $stmt->execute();
+
+            $result = $_mysqli->query('CALL pUpdateMainVersionNum(@_versionNum)');
+            return $result;
+            $result->free();
+        }catch(Exception $e){
+
+        }
+    }// end updateversionnum
+
+    // GET ELEMENT SET VERSION NUMBER
+    function getSetVersionNumber($conn){
+        try{
+            if (!$result = $conn->query('CALL pGetElementVersions()')){
+                return false;
+            }
+
+            $rows = array();
+            if ($result->num_rows === 0){
+                // NO RESULTS
+                return $rows;
+            }else{
+                while ($r = $result->fetch_assoc()){
+                    $rows[] = $r;
+                }
+                return $rows;
+            }
+
+        }catch(Exception $e){
+            echo $e->getMessage();            
+        }
+
+    }// end getSetVersionNumber
 }
 
 ?>
