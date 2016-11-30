@@ -10,6 +10,8 @@ if (isset($_POST['SetId'])){
 
     $result = $_dbhelper->insertToPendingElements($conn,$postSetId, date("Y-m-d H:i:s"),$postStatus);
     echo $result;
+
+    $conn->close();
 }
 
 ?>
