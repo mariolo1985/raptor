@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DisplaySet } from '../';
+import { DisplaySet } from './';
 
 
 class FileDisplay extends Component {
