@@ -9,6 +9,11 @@ render(
     document.getElementById('main-nav')
 );
 
+$(document).ready(function(){
+    getPendingElements(renderElements);
+});
+
+
 // COMPONENT
 function renderElements(elements) {
 
@@ -19,5 +24,3 @@ function renderElements(elements) {
         document.getElementById('file-display')
     );
 }
-
-getPendingElements(renderElements);
